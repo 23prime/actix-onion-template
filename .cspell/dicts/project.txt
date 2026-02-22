@@ -12,3 +12,5 @@ sqlx
 chrono
 timestamptz
 getenv
+healthcheck
+isready
