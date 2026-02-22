@@ -104,6 +104,13 @@ mise run db-apply
 | `mise run db-logs`   | Follow database container logs          |
 | `mise run db-apply`  | Apply schema to the database            |
 
+#### SQL
+
+| Command              | Alias         | Description       |
+| -------------------- | ------------- | ----------------- |
+| `mise run sql-fix`   | `mise run sf` | Fix SQL files     |
+| `mise run sql-check` | `mise run sc` | Check SQL files   |
+
 #### Testing
 
 | Command                      | Alias          | Description             |
