@@ -1,68 +1,40 @@
-# Development Template with mise
+# actix-onion-template
 
-A Template for development with [mise](https://mise.jdx.dev).
+A template for building web applications using Actix Web and the Onion architecture.
 
-## Getting started
+## Development
 
-1. Clone this repository.
+### Pre-requirements
 
-    ```bash
-    git clone git@github.com:23prime/mise-template.git
-    ```
+- [mise](https://mise.jdx.dev)
+- [rustup](https://rustup.rs)
 
-2. Copy the cloned repository to anywhere..
+### Setup
 
-    ```bash
-    cp -ar mise-template <your-repo-path>
-    ```
+```bash
+mise run setup
+```
 
-3. Into your repository.
+### Commands
 
-    ```bash
-    cd <your-repo-path>
-    ```
+| Command                  | Alias         | Description                        |
+| ------------------------ | ------------  | ---------------------------------- |
+| `mise run setup`         | `mise run s`  | Install tools and set up git hooks |
+| `mise run fix`           | `mise run f`  | Auto-fix all issues                |
+| `mise run check`         | `mise run c`  | Check for all issues               |
+| `mise run fix-and-check` | `mise run fc` | Fix and then check                 |
 
-4. Rename remote repository to `upstream`.
+#### Rust
 
-    ```bash
-    git remote rename origin upstream
-    ```
+| Command                     | Alias         | Description                    |
+| --------------------------- | ------------- | ------------------------------ |
+| `mise run rs-run`           | `mise run rr` | Run the application            |
+| `mise run rs-fix`           | `mise run rf` | Fix Rust code (clippy + fmt)   |
+| `mise run rs-check`         | `mise run rc` | Check Rust code                |
+| `mise run rs-build`         |               | Build the application          |
+| `mise run rs-build-release` |               | Build in release mode          |
+| `mise run rs-clean`         |               | Clean build artifacts          |
 
-5. Create your remote repository as `origin` and set URL, push.
+## Contributing
 
-    If you use GitHub CLI:
-
-    ```bash
-    gh repo create "<your-repo-name>" --private --source=. --remote=origin --push
-    ```
-
-    If you create repository on GitHub manually:
-
-    ```bash
-    git remote set-url origin <your-remote-url>
-    git push -u origin main
-    ```
-
-6. Check remote repositories.
-
-    ```bash
-    $ git remote -v
-    origin  <your-remote-url> (fetch)
-    origin  <your-remote-url> (push)
-    upstream        git@github.com:23prime/mise-template.git (fetch)
-    upstream        git@github.com:23prime/mise-template.git (push)
-    ```
-
-## Merge from upstream
-
-1. Fetch upstream changes.
-
-    ```bash
-    git fetch upstream
-    ```
-
-2. Merge.
-
-    ```bash
-    git merge upstream/main
-    ```
+See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
