@@ -6,12 +6,29 @@ A template for building web applications using Actix Web and the Onion architect
 
 This template follows the Onion architecture, where dependencies flow strictly inward.
 
-```text
-server → presentation, infrastructure, domain
-presentation →          use_case, domain
-use_case →               domain
-infrastructure →         domain
-domain                   (no dependencies)
+```mermaid
+graph TB
+    subgraph outer["Outer Layer"]
+        server
+    end
+    subgraph middle["Infrastructure / Presentation Layer"]
+        infrastructure
+        presentation
+    end
+    subgraph app["Application Layer"]
+        use_case
+    end
+    subgraph core["Domain Layer (Core)"]
+        domain
+    end
+
+    server --> infrastructure
+    server --> presentation
+    server --> domain
+    infrastructure --> domain
+    presentation --> use_case
+    presentation --> domain
+    use_case --> domain
 ```
 
 | Crate            | Kind   | Responsibility                                |
