@@ -28,6 +28,7 @@ watchexec = "latest"
 [env]
 CORS_ALLOWED_ORIGINS = "http://localhost:3000"
 DATABASE_URL = "postgres://postgres:password@localhost:5432/app_development?sslmode=disable"
+DEV_DATABASE_URL = "postgres://postgres:password@localhost:5432/postgres?sslmode=disable"
 LOG_FORMAT = "text"
 LOG_LEVEL = "debug"
 PORT = "8080"
@@ -158,17 +159,12 @@ run = "docker compose down db"
 description = "Follow database container logs"
 run = "docker compose logs db -f"
 
-[tasks.db-migrate]
-description = "Apply database migrations"
-run = "atlas migrate apply --env local --config file://atlas.hcl"
+[tasks.db-diff]
+description = "Show diff between schema.sql and the database"
+run = "atlas schema diff --from \"${DATABASE_URL}\" --to file://schema.sql --dev-url \"${DEV_DATABASE_URL}\""
 dir = "db"
 
-[tasks.db-rollback]
-description = "Rollback last database migration"
-run = "atlas migrate down --env local --config file://atlas.hcl"
-dir = "db"
-
-[tasks.db-new]
-description = "Create a new migration file"
-run = "atlas migrate new --env local --config file://atlas.hcl"
+[tasks.db-apply]
+description = "Apply schema to the database"
+run = "atlas schema apply --env local --config file://atlas.hcl --auto-approve"
 dir = "db"

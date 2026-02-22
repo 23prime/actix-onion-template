@@ -5,9 +5,9 @@ set -euo pipefail
 
 BASE_URL="http://localhost:${PORT:-8080}"
 
-# Start DB and apply migrations
+# Start DB and apply schema
 docker compose up db -d --wait
-(cd db && atlas migrate apply --env local --config file://atlas.hcl)
+(cd db && atlas schema apply --env local --config file://atlas.hcl --auto-approve)
 
 # Reset test data
 docker compose exec -T db psql -U postgres app_development -c "TRUNCATE TABLE users;"

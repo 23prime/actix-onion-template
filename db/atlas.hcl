@@ -1,6 +1,5 @@
 env "local" {
   url = getenv("DATABASE_URL")
-  migration {
-    dir = "file://migrations"
-  }
+  src = "file://schema.sql"
+  dev = getenv("DEV_DATABASE_URL")
 }

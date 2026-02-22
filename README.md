@@ -45,15 +45,15 @@ graph TB
 
 ## Tech Stack
 
-| Category  | Technology                                              |
-| --------- | ------------------------------------------------------- |
-| Framework | [Actix Web](https://actix.rs) 4                         |
-| Database  | PostgreSQL                                              |
-| ORM / SQL | [sqlx](https://github.com/launchbadge/sqlx) 0.8         |
-| Migration | [Atlas](https://atlasgo.io) (versioned migration style) |
-| Runtime   | [Tokio](https://tokio.rs)                               |
-| Tooling   | [mise](https://mise.jdx.dev)                            |
-| Testing   | [runn](https://github.com/k1LoW/runn)                   |
+| Category  | Technology                                                   |
+| --------- | ------------------------------------------------------------ |
+| Framework | [Actix Web](https://actix.rs) 4                              |
+| Database  | PostgreSQL                                                   |
+| ORM / SQL | [sqlx](https://github.com/launchbadge/sqlx) 0.8              |
+| Migration | [Atlas](https://atlasgo.io) (declarative schema management)  |
+| Runtime   | [Tokio](https://tokio.rs)                                    |
+| Tooling   | [mise](https://mise.jdx.dev)                                 |
+| Testing   | [runn](https://github.com/k1LoW/runn)                        |
 
 ## Development
 
@@ -68,7 +68,7 @@ graph TB
 ```bash
 mise run setup
 mise run db-up-d
-mise run db-migrate
+mise run db-apply
 ```
 
 ### Commands
@@ -95,16 +95,20 @@ mise run db-migrate
 
 #### Database
 
-| Command                | Description                              |
-| ---------------------- | ---------------------------------------- |
-| `mise run db-up-d`     | Start the database container (detached)  |
-| `mise run db-up`       | Start the database container (attached)  |
-| `mise run db-stop`     | Stop the database container              |
-| `mise run db-down`     | Stop and remove the database container   |
-| `mise run db-logs`     | Follow database container logs           |
-| `mise run db-migrate`  | Apply pending migrations                 |
-| `mise run db-rollback` | Roll back the last migration             |
-| `mise run db-new`      | Create a new migration file              |
+| Command              | Description                             |
+| -------------------- | --------------------------------------- |
+| `mise run db-up-d`   | Start the database container (detached) |
+| `mise run db-up`     | Start the database container (attached) |
+| `mise run db-stop`   | Stop the database container             |
+| `mise run db-down`   | Stop and remove the database container  |
+| `mise run db-logs`   | Follow database container logs          |
+| `mise run db-apply`  | Apply schema to the database            |
+
+#### Testing
+
+| Command                      | Alias          | Description             |
+| ---------------------------- | -------------- | ----------------------- |
+| `mise run integration-test`  | `mise run it`  | Run integration tests   |
 
 ## Contributing
 
