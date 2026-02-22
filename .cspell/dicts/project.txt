@@ -1,0 +1,6 @@
+guake
+clippy
+nocapture
+rustup
+dtolnay
+actix

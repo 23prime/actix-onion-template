@@ -28,12 +28,12 @@ alias = "s"
 
 [tasks.fix]
 description = "Fix all issues"
-depends = ["md-fix"]
+depends = ["md-fix", "rs-fix"]
 alias = "f"
 
 [tasks.check]
 description = "Check for all issues"
-depends = ["md-check", "gh-check", "spell-check"]
+depends = ["md-check", "gh-check", "spell-check", "rs-check"]
 alias = "c"
 
 [tasks.fix-and-check]
@@ -63,3 +63,52 @@ alias = "ghc"
 description = "Check spelling"
 run = "cspell . --gitignore --verbose"
 alias = "sc"
+
+# Rust
+[vars]
+app_dir = "app"
+
+[tasks.rs-install]
+description = "Install Rust dependencies"
+run = "cargo fetch"
+dir = "{{vars.app_dir}}"
+
+[tasks.rs-fix]
+description = "Fix Rust code"
+run = [
+  "cargo clippy --all-targets --all-features --no-deps --fix --allow-dirty",
+  "cargo fmt",
+]
+alias = "rf"
+dir = "{{vars.app_dir}}"
+
+[tasks.rs-check]
+description = "Check Rust code"
+run = [
+  "cargo clippy --all-targets --all-features --no-deps",
+  "cargo fmt -- --check",
+  "cargo test -- --nocapture",
+]
+alias = "rc"
+dir = "{{vars.app_dir}}"
+
+[tasks.rs-run]
+description = "Run Rust application"
+run = "cargo run"
+alias = "rr"
+dir = "{{vars.app_dir}}"
+
+[tasks.rs-build]
+description = "Build Rust application"
+run = "cargo build"
+dir = "{{vars.app_dir}}"
+
+[tasks.rs-build-release]
+description = "Build Rust application in release mode"
+run = "cargo build --release"
+dir = "{{vars.app_dir}}"
+
+[tasks.rs-clean]
+description = "Clean Rust build artifacts"
+run = "cargo clean"
+dir = "{{vars.app_dir}}"

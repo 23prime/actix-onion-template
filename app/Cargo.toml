@@ -1,0 +1,7 @@
+[package]
+name = "actix-onion-template"
+description = "A template for building web applications using Actix Web and the Onion architecture."
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
