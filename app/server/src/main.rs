@@ -2,7 +2,9 @@ mod config;
 
 use actix_web::{App, HttpServer};
 use tracing_actix_web::TracingLogger;
-use tracing_subscriber::{EnvFilter, layer::SubscriberExt, util::SubscriberInitExt};
+use tracing_subscriber::{
+    EnvFilter, fmt::format::FmtSpan, layer::SubscriberExt, util::SubscriberInitExt,
+};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -13,7 +15,11 @@ async fn main() -> std::io::Result<()> {
 
     tracing_subscriber::registry()
         .with(EnvFilter::new(&config.log_level))
-        .with(tracing_subscriber::fmt::layer().json())
+        .with(
+            tracing_subscriber::fmt::layer()
+                .json()
+                .with_span_events(FmtSpan::NEW | FmtSpan::CLOSE),
+        )
         .init();
 
     tracing::info!(port = config.port, "Starting server");
