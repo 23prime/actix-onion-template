@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#MISE description="Run integration tests"
+#MISE alias="it"
+set -euo pipefail
+
+BASE_URL="http://localhost:${PORT:-8080}"
+
+# Start DB and apply migrations
+docker compose up db -d --wait
+(cd db && atlas migrate apply --env local --config file://atlas.hcl)
+
+# Start server in background
+(cd app && cargo run) &
+SERVER_PID=$!
+
+trap 'kill "${SERVER_PID}" 2>/dev/null; docker compose stop db' EXIT
+
+# Wait for server to be ready
+echo "Waiting for server..."
+until curl -sf "${BASE_URL}/health" > /dev/null 2>&1; do
+  sleep 0.5
+done
+echo "Server ready"
+
+runn run tests/runn/**/*.yml --runner "req:${BASE_URL}"
