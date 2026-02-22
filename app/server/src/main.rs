@@ -1,10 +1,8 @@
 mod config;
+mod tracing;
 
 use actix_web::{App, HttpServer};
 use tracing_actix_web::TracingLogger;
-use tracing_subscriber::{
-    EnvFilter, Layer, fmt::format::FmtSpan, layer::SubscriberExt, util::SubscriberInitExt,
-};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -13,22 +11,9 @@ async fn main() -> std::io::Result<()> {
         std::process::exit(1);
     });
 
-    let fmt_layer: Box<dyn Layer<_> + Send + Sync> = match config.log_format.as_str() {
-        "text" => tracing_subscriber::fmt::layer()
-            .with_span_events(FmtSpan::NEW | FmtSpan::CLOSE)
-            .boxed(),
-        _ => tracing_subscriber::fmt::layer()
-            .json()
-            .with_span_events(FmtSpan::NEW | FmtSpan::CLOSE)
-            .boxed(),
-    };
+    tracing::init(&config);
 
-    tracing_subscriber::registry()
-        .with(EnvFilter::new(&config.log_level))
-        .with(fmt_layer)
-        .init();
-
-    tracing::info!(port = config.port, "Starting server");
+    ::tracing::info!(port = config.port, "Starting server");
 
     HttpServer::new(|| {
         App::new()
