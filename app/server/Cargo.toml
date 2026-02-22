@@ -8,6 +8,7 @@ name = "server"
 path = "src/main.rs"
 
 [dependencies]
+actix-web = { workspace = true }
 domain = { path = "../domain" }
-presentation = { path = "../presentation" }
 infrastructure = { path = "../infrastructure" }
+presentation = { path = "../presentation" }

@@ -4,5 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+actix-web = { workspace = true }
 domain = { path = "../domain" }
+serde = { workspace = true }
 use_case = { path = "../use_case" }
+
+[dev-dependencies]
+serde_json = { workspace = true }
