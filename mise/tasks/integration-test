@@ -5,24 +5,36 @@ set -euo pipefail
 
 BASE_URL="http://localhost:${PORT:-8080}"
 
-# Start DB and apply schema
+echo "Starting database..."
 docker compose up db -d --wait
-(cd db && atlas schema apply --env local --config file://atlas.hcl --auto-approve)
+echo
 
-# Reset test data
-docker compose exec -T db psql -U postgres app_development -c "TRUNCATE TABLE users;"
+echo "Creating test database..."
+docker compose exec -T db psql -U postgres -c "CREATE DATABASE app_test WITH TEMPLATE template0;" 2>/dev/null || true
+echo
 
-# Start server in background
-(cd app && cargo run) &
+
+echo "Applying schema..."
+(cd db && atlas schema apply --env test --config file://atlas.hcl --auto-approve)
+echo
+
+echo "Resetting test data..."
+docker compose exec -T db psql -U postgres app_test -c "TRUNCATE TABLE users;"
+echo
+
+echo "Starting server..."
+(cd app && DATABASE_URL="${TEST_DATABASE_URL}" cargo run) &
 SERVER_PID=$!
+echo
 
 trap 'kill "${SERVER_PID}" 2>/dev/null; docker compose stop db' EXIT
 
-# Wait for server to be ready
-echo "Waiting for server..."
+echo "Waiting for server to be ready..."
 until curl -sf "${BASE_URL}/health" > /dev/null 2>&1; do
   sleep 0.5
 done
 echo "Server ready"
+echo
 
+echo "Running integration tests..."
 runn run tests/runn/**/*.yml --runner "req:${BASE_URL}"
