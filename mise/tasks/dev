@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#MISE description="Start all development services"
+#MISE alias="d"
+set -euo pipefail
+
+trap 'docker compose stop db' EXIT
+
+docker compose up db -d --wait
+cd app && watchexec --exts rs,toml --restart -- cargo run

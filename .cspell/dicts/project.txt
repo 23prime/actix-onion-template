@@ -15,3 +15,4 @@ getenv
 healthcheck
 isready
 sslmode
+pipefail

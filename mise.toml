@@ -137,11 +137,23 @@ dir = "{{vars.app_dir}}"
 # Database
 [tasks.db-up]
 description = "Start the database container"
-run = "docker compose up -d --wait"
+run = "docker compose up db"
+
+[tasks.db-up-d]
+description = "Start the database container in detached mode and wait for it to be ready"
+run = "docker compose up db -d --wait"
+
+[tasks.db-stop]
+description = "Stop the database container"
+run = "docker compose stop db"
 
 [tasks.db-down]
-description = "Stop the database container"
-run = "docker compose down"
+description = "Stop and remove the database container"
+run = "docker compose down db"
+
+[tasks.db-logs]
+description = "Follow database container logs"
+run = "docker compose logs db -f"
 
 [tasks.db-migrate]
 description = "Apply database migrations"
