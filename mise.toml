@@ -3,6 +3,9 @@
 # ================================================================
 [tools]
 
+# Database
+atlas = "latest"
+
 # Markdown
 markdownlint-cli2 = "latest"
 
@@ -21,6 +24,7 @@ watchexec = "latest"
 # ================================================================
 [env]
 CORS_ALLOWED_ORIGINS = "http://localhost:3000"
+DATABASE_URL = "postgres://postgres:password@localhost:5432/app_development"
 LOG_FORMAT = "text"
 LOG_LEVEL = "debug"
 PORT = "8080"
@@ -129,3 +133,16 @@ dir = "{{vars.app_dir}}"
 description = "Clean Rust build artifacts"
 run = "cargo clean"
 dir = "{{vars.app_dir}}"
+
+# Database
+[tasks.db-migrate]
+description = "Apply database migrations"
+run = "atlas migrate apply --env local"
+
+[tasks.db-rollback]
+description = "Rollback last database migration"
+run = "atlas migrate down --env local"
+
+[tasks.db-new]
+description = "Create a new migration file"
+run = "atlas migrate new --env local"
