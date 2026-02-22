@@ -1,0 +1,12 @@
+desc: Health check
+runners:
+  req: http://localhost:8080
+steps:
+  check_health:
+    desc: GET /health returns 200 with status ok
+    req:
+      /health:
+        get: {}
+    test: current.res.status == 200
+  check_health_body:
+    test: steps.check_health.res.body.status == "ok"
