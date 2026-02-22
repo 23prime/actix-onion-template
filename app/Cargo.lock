@@ -3,5 +3,36 @@
 version = 4
 
 [[package]]
-name = "actix-onion-template"
+name = "domain"
 version = "0.1.0"
+
+[[package]]
+name = "infrastructure"
+version = "0.1.0"
+dependencies = [
+ "domain",
+]
+
+[[package]]
+name = "presentation"
+version = "0.1.0"
+dependencies = [
+ "domain",
+ "use_case",
+]
+
+[[package]]
+name = "server"
+version = "0.1.0"
+dependencies = [
+ "domain",
+ "infrastructure",
+ "presentation",
+]
+
+[[package]]
+name = "use_case"
+version = "0.1.0"
+dependencies = [
+ "domain",
+]

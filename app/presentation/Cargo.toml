@@ -1,0 +1,8 @@
+[package]
+name = "presentation"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+domain = { path = "../domain" }
+use_case = { path = "../use_case" }
