@@ -63,14 +63,15 @@ mise run setup
 
 #### Rust
 
-| Command                     | Alias         | Description                    |
-| --------------------------- | ------------- | ------------------------------ |
-| `mise run rs-run`           | `mise run rr` | Run the application            |
-| `mise run rs-fix`           | `mise run rf` | Fix Rust code (clippy + fmt)   |
-| `mise run rs-check`         | `mise run rc` | Check Rust code                |
-| `mise run rs-build`         |               | Build the application          |
-| `mise run rs-build-release` |               | Build in release mode          |
-| `mise run rs-clean`         |               | Clean build artifacts          |
+| Command                     | Alias         | Description                     |
+| --------------------------- | ------------- | ------------------------------- |
+| `mise run rs-run`           | `mise run rr` | Run the application             |
+| `mise run rs-watch`         | `mise run rw` | Run with hot reload (watchexec) |
+| `mise run rs-fix`           | `mise run rf` | Fix Rust code (clippy + fmt)    |
+| `mise run rs-check`         | `mise run rc` | Check Rust code                 |
+| `mise run rs-build`         |               | Build the application           |
+| `mise run rs-build-release` |               | Build in release mode           |
+| `mise run rs-clean`         |               | Clean build artifacts           |
 
 ## Contributing
 

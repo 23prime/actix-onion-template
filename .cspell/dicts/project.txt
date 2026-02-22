@@ -5,3 +5,4 @@ rustup
 dtolnay
 actix
 serde
+watchexec

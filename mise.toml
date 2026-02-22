@@ -13,6 +13,14 @@ shellcheck = "latest"
 # Other tools
 lefthook = "latest"
 cspell = "latest"
+watchexec = "latest"
+
+
+# ================================================================
+# Environment Variables
+# ================================================================
+[env]
+PORT = "8080"
 
 
 # ================================================================
@@ -96,6 +104,12 @@ dir = "{{vars.app_dir}}"
 description = "Run Rust application"
 run = "cargo run"
 alias = "rr"
+dir = "{{vars.app_dir}}"
+
+[tasks.rs-watch]
+description = "Watch for file changes and reload Rust application"
+run = "watchexec --exts rs,toml --restart -- cargo run"
+alias = "rw"
 dir = "{{vars.app_dir}}"
 
 [tasks.rs-build]
