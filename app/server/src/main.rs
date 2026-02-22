@@ -1,4 +1,5 @@
 mod config;
+mod middleware;
 mod tracing;
 
 use actix_web::{App, HttpServer};
@@ -17,6 +18,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(|| {
         App::new()
+            .wrap(middleware::default_headers())
             .wrap(TracingLogger::default())
             .configure(presentation::configure)
     })

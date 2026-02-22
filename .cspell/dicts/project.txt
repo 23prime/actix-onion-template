@@ -6,3 +6,5 @@ dtolnay
 actix
 serde
 watchexec
+nosniff
+clickjacking
