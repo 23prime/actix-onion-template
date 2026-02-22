@@ -8,3 +8,7 @@ serde
 watchexec
 nosniff
 clickjacking
+sqlx
+chrono
+timestamptz
+getenv
