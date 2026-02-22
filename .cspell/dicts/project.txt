@@ -14,3 +14,4 @@ timestamptz
 getenv
 healthcheck
 isready
+sslmode
