@@ -10,6 +10,7 @@ This template follows the Onion architecture, where dependencies flow strictly i
 graph TB
     subgraph outer["Outer Layer"]
         server
+        container
     end
     subgraph middle["Infrastructure / Presentation Layer"]
         infrastructure
@@ -22,23 +23,25 @@ graph TB
         domain
     end
 
+    server --> container
     server --> infrastructure
     server --> presentation
-    server --> domain
+    container --> domain
     infrastructure --> domain
-    presentation --> infrastructure
+    presentation --> container
     presentation --> use_case
     presentation --> domain
     use_case --> domain
 ```
 
-| Crate            | Kind   | Responsibility                                |
-| ---------------- | ------ | --------------------------------------------- |
-| `domain`         | lib    | Entities, value objects, repository traits    |
-| `use_case`       | lib    | Application services, business logic          |
-| `presentation`   | lib    | HTTP handlers, routing                        |
-| `infrastructure` | lib    | Repository implementations, external services |
-| `server`         | binary | Dependency injection, entry point             |
+| Crate            | Kind   | Responsibility                                     |
+| ---------------- | ------ | -------------------------------------------------- |
+| `domain`         | lib    | Entities, value objects, repository traits         |
+| `use_case`       | lib    | Application services, business logic               |
+| `presentation`   | lib    | HTTP handlers, routing                             |
+| `infrastructure` | lib    | Repository implementations, external services      |
+| `container`      | lib    | DI container holding repository trait objects      |
+| `server`         | binary | Wires dependencies, initializes infrastructure     |
 
 ## Tech Stack
 
