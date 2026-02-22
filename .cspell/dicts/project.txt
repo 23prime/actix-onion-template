@@ -19,3 +19,5 @@ pipefail
 runn
 psql
 uuidv
+quarylabs
+sqruff

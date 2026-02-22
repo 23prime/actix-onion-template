@@ -5,6 +5,7 @@
 
 # Database
 atlas = "latest"
+"github:quarylabs/sqruff" = "latest"
 
 # Testing
 "github:k1LoW/runn" = "latest"
@@ -47,12 +48,12 @@ alias = "s"
 
 [tasks.fix]
 description = "Fix all issues"
-depends = ["md-fix", "rs-fix"]
+depends = ["md-fix", "rs-fix", "sql-fix"]
 alias = "f"
 
 [tasks.check]
 description = "Check for all issues"
-depends = ["md-check", "gh-check", "spell-check", "rs-check"]
+depends = ["md-check", "gh-check", "spell-check", "rs-check", "sql-check"]
 alias = "c"
 
 [tasks.fix-and-check]
@@ -168,3 +169,14 @@ dir = "db"
 description = "Apply schema to the database"
 run = "atlas schema apply --env local --config file://atlas.hcl --auto-approve"
 dir = "db"
+
+# SQL
+[tasks.sql-fix]
+description = "Fix SQL files"
+run = "sqruff fix db/schema.sql"
+alias = "sf"
+
+[tasks.sql-check]
+description = "Check SQL files"
+run = "sqruff lint db/schema.sql"
+alias = "sc"

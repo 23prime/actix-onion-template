@@ -4,6 +4,7 @@
     "GitHub.vscode-github-actions",
     "EditorConfig.EditorConfig",
     "DavidAnson.vscode-markdownlint",
-    "rust-lang.rust-analyzer"
+    "rust-lang.rust-analyzer",
+    "Quary.sqruff"
   ]
 }

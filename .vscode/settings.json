@@ -12,5 +12,11 @@
   "rust-analyzer.checkOnSave": true,
   "rust-analyzer.check.command": "clippy",
   "rust-analyzer.check.features": "all",
-  "rust-analyzer.check.allTargets": true
+  "rust-analyzer.check.allTargets": true,
+
+  // SQL
+  "[sql]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Quary.sqruff"
+  }
 }
