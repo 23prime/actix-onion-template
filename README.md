@@ -38,3 +38,7 @@ mise run setup
 ## Contributing
 
 See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
+## License
+
+[MIT](LICENSE)
