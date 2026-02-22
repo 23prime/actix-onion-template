@@ -7,6 +7,7 @@ edition = "2024"
 actix-web = { workspace = true }
 domain = { path = "../domain" }
 serde = { workspace = true }
+tracing = { workspace = true }
 use_case = { path = "../use_case" }
 
 [dev-dependencies]

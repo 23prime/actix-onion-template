@@ -3,6 +3,7 @@ use std::env;
 #[derive(Debug)]
 pub struct Config {
     pub port: u16,
+    pub log_level: String,
 }
 
 #[derive(Debug)]
@@ -34,6 +35,8 @@ impl Config {
                 reason: e.to_string(),
             })?;
 
-        Ok(Self { port })
+        let log_level = env::var("LOG_LEVEL").unwrap_or_else(|_| "info".to_string());
+
+        Ok(Self { port, log_level })
     }
 }

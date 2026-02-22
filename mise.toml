@@ -20,6 +20,7 @@ watchexec = "latest"
 # Environment Variables
 # ================================================================
 [env]
+LOG_LEVEL = "info"
 PORT = "8080"
 
 
