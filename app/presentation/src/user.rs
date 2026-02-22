@@ -1,8 +1,7 @@
 use actix_web::{HttpResponse, web};
+use container::Container;
 use domain::user::UserId;
-use infrastructure::user_repository::PgUserRepository;
 use serde::{Deserialize, Serialize};
-use sqlx::PgPool;
 use use_case::user::{CreateUser, CreateUserInput, GetUser};
 use uuid::Uuid;
 
@@ -21,11 +20,10 @@ pub struct UserResponse {
 }
 
 pub async fn create_user(
-    pool: web::Data<PgPool>,
+    container: web::Data<Container>,
     body: web::Json<CreateUserRequest>,
 ) -> HttpResponse {
-    let repo = PgUserRepository::new(pool.get_ref().clone());
-    let use_case = CreateUser::new(repo);
+    let use_case = CreateUser::new(container.user_repo.clone());
     let input = CreateUserInput {
         name: body.name.clone(),
         email: body.email.clone(),
@@ -48,10 +46,9 @@ pub async fn create_user(
     }
 }
 
-pub async fn get_user(pool: web::Data<PgPool>, path: web::Path<Uuid>) -> HttpResponse {
+pub async fn get_user(container: web::Data<Container>, path: web::Path<Uuid>) -> HttpResponse {
     let id = UserId::new(path.into_inner());
-    let repo = PgUserRepository::new(pool.get_ref().clone());
-    let use_case = GetUser::new(repo);
+    let use_case = GetUser::new(container.user_repo.clone());
     match use_case.execute(id).await {
         Ok(user) => HttpResponse::Ok().json(UserResponse {
             id: user.id.0.to_string(),

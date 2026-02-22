@@ -2,7 +2,11 @@ mod config;
 mod middleware;
 mod tracing;
 
+use std::sync::Arc;
+
 use actix_web::{App, HttpServer, web::Data};
+use container::Container;
+use infrastructure::user_repository::PgUserRepository;
 use tracing_actix_web::TracingLogger;
 
 #[actix_web::main]
@@ -23,9 +27,11 @@ async fn main() -> std::io::Result<()> {
             std::process::exit(1);
         });
 
+    let container = Data::new(Container::new(Arc::new(PgUserRepository::new(pool))));
+
     HttpServer::new(move || {
         App::new()
-            .app_data(Data::new(pool.clone()))
+            .app_data(container.clone())
             .wrap(middleware::cors(&config.cors_allowed_origins))
             .wrap(middleware::default_headers())
             .wrap(TracingLogger::default())

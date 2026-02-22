@@ -403,6 +403,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c2459377285ad874054d797f3ccebf984978aa39129f6eafde5cdc8315b612f8"
 
 [[package]]
+name = "container"
+version = "0.1.0"
+dependencies = [
+ "domain",
+]
+
+[[package]]
 name = "convert_case"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1427,12 +1434,10 @@ name = "presentation"
 version = "0.1.0"
 dependencies = [
  "actix-web",
- "chrono",
+ "container",
  "domain",
- "infrastructure",
  "serde",
  "serde_json",
- "sqlx",
  "tracing",
  "use_case",
  "uuid",
@@ -1698,7 +1703,7 @@ version = "0.1.0"
 dependencies = [
  "actix-cors",
  "actix-web",
- "domain",
+ "container",
  "infrastructure",
  "presentation",
  "sqlx",

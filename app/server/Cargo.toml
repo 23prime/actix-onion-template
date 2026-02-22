@@ -10,7 +10,7 @@ path = "src/main.rs"
 [dependencies]
 actix-cors = { workspace = true }
 actix-web = { workspace = true }
-domain = { path = "../domain" }
+container = { path = "../container" }
 infrastructure = { path = "../infrastructure" }
 presentation = { path = "../presentation" }
 sqlx = { workspace = true }

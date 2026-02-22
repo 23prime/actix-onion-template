@@ -5,6 +5,7 @@ members = [
   "use_case",
   "presentation",
   "infrastructure",
+  "container",
 ]
 resolver = "2"
 

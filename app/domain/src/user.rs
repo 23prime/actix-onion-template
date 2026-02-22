@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
@@ -24,6 +26,17 @@ pub struct User {
 pub trait UserRepository: Send + Sync {
     async fn find_by_id(&self, id: &UserId) -> Result<Option<User>, UserError>;
     async fn save(&self, user: &User) -> Result<(), UserError>;
+}
+
+#[async_trait]
+impl<T: UserRepository + ?Sized> UserRepository for Arc<T> {
+    async fn find_by_id(&self, id: &UserId) -> Result<Option<User>, UserError> {
+        (**self).find_by_id(id).await
+    }
+
+    async fn save(&self, user: &User) -> Result<(), UserError> {
+        (**self).save(user).await
+    }
 }
 
 #[derive(Debug)]
