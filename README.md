@@ -53,6 +53,7 @@ graph TB
 | Migration | [Atlas](https://atlasgo.io) (versioned migration style) |
 | Runtime   | [Tokio](https://tokio.rs)                               |
 | Tooling   | [mise](https://mise.jdx.dev)                            |
+| Testing   | [runn](https://github.com/k1LoW/runn)                   |
 
 ## Development
 

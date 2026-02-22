@@ -6,6 +6,9 @@
 # Database
 atlas = "latest"
 
+# Testing
+"github:k1LoW/runn" = "latest"
+
 # Markdown
 markdownlint-cli2 = "latest"
 
