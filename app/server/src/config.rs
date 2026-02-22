@@ -8,6 +8,7 @@ pub struct Config {
     pub log_level: LogLevel,
     pub log_format: LogFormat,
     pub cors_allowed_origins: Vec<String>,
+    pub database_url: String,
 }
 
 impl Config {
@@ -50,11 +51,15 @@ impl Config {
             })
             .collect::<Result<Vec<_>, ConfigError>>()?;
 
+        let database_url =
+            env::var("DATABASE_URL").map_err(|_| ConfigError::Missing("DATABASE_URL".into()))?;
+
         Ok(Self {
             port,
             log_level,
             log_format,
             cors_allowed_origins,
+            database_url,
         })
     }
 }
