@@ -2,6 +2,26 @@
 
 A template for building web applications using Actix Web and the Onion architecture.
 
+## Architecture
+
+This template follows the Onion architecture, where dependencies flow strictly inward.
+
+```text
+server → presentation, infrastructure, domain
+presentation →          use_case, domain
+use_case →               domain
+infrastructure →         domain
+domain                   (no dependencies)
+```
+
+| Crate            | Kind   | Responsibility                                |
+| ---------------- | ------ | --------------------------------------------- |
+| `domain`         | lib    | Entities, value objects, repository traits    |
+| `use_case`       | lib    | Application services, business logic          |
+| `presentation`   | lib    | HTTP handlers, routing                        |
+| `infrastructure` | lib    | Repository implementations, external services |
+| `server`         | binary | Dependency injection, entry point             |
+
 ## Development
 
 ### Pre-requirements
