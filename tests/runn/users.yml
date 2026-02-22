@@ -1,0 +1,39 @@
+desc: User API
+runners:
+  req: http://localhost:8080
+steps:
+  create_user:
+    desc: POST /users creates a new user
+    req:
+      /users:
+        post:
+          body:
+            application/json:
+              name: Alice
+              email: alice@example.com
+    test: current.res.status == 201 && current.res.body.name == "Alice" && current.res.body.email == "alice@example.com"
+
+  get_user:
+    desc: GET /users/{id} returns the created user
+    req:
+      /users/{{ steps.create_user.res.body.id }}:
+        get: {}
+    test: current.res.status == 200 && current.res.body.name == "Alice"
+
+  create_duplicate:
+    desc: POST /users with duplicate email returns 409
+    req:
+      /users:
+        post:
+          body:
+            application/json:
+              name: Alice2
+              email: alice@example.com
+    test: current.res.status == 409
+
+  get_nonexistent:
+    desc: GET /users/{id} with unknown ID returns 404
+    req:
+      /users/00000000-0000-0000-0000-000000000000:
+        get: {}
+    test: current.res.status == 404
