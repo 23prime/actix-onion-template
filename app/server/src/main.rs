@@ -16,8 +16,9 @@ async fn main() -> std::io::Result<()> {
 
     ::tracing::info!(port = config.port, "Starting server");
 
-    HttpServer::new(|| {
+    HttpServer::new(move || {
         App::new()
+            .wrap(middleware::cors(&config.cors_allowed_origins))
             .wrap(middleware::default_headers())
             .wrap(TracingLogger::default())
             .configure(presentation::configure)

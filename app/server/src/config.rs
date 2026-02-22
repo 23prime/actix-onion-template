@@ -1,10 +1,13 @@
 use std::env;
 
+use url::Url;
+
 #[derive(Debug)]
 pub struct Config {
     pub port: u16,
     pub log_level: LogLevel,
     pub log_format: LogFormat,
+    pub cors_allowed_origins: Vec<String>,
 }
 
 impl Config {
@@ -33,10 +36,25 @@ impl Config {
                 reason: e,
             })?;
 
+        let cors_allowed_origins = env::var("CORS_ALLOWED_ORIGINS")
+            .unwrap_or_default()
+            .split(',')
+            .map(|s| s.trim().to_string())
+            .filter(|s| !s.is_empty())
+            .map(|s| {
+                parse_origin(&s).map_err(|reason| ConfigError::Invalid {
+                    key: "CORS_ALLOWED_ORIGINS".into(),
+                    reason,
+                })?;
+                Ok(s)
+            })
+            .collect::<Result<Vec<_>, ConfigError>>()?;
+
         Ok(Self {
             port,
             log_level,
             log_format,
+            cors_allowed_origins,
         })
     }
 }
@@ -116,5 +134,77 @@ impl std::str::FromStr for LogFormat {
                 "unknown log format '{s}', expected one of: json, text"
             )),
         }
+    }
+}
+
+fn parse_origin(s: &str) -> Result<(), String> {
+    let url = Url::parse(s).map_err(|e| format!("'{s}' is not a valid URL: {e}"))?;
+
+    if !matches!(url.scheme(), "http" | "https") {
+        return Err(format!("'{s}': scheme must be http or https"));
+    }
+
+    if url.host().is_none() {
+        return Err(format!("'{s}': missing host"));
+    }
+
+    // An origin must not include a path, query, or fragment
+    if url.path() != "/" {
+        return Err(format!("'{s}': must not contain a path"));
+    }
+    if url.query().is_some() {
+        return Err(format!("'{s}': must not contain a query string"));
+    }
+    if url.fragment().is_some() {
+        return Err(format!("'{s}': must not contain a fragment"));
+    }
+
+    Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_parse_origin_valid() {
+        assert!(parse_origin("http://localhost:3000").is_ok());
+        assert!(parse_origin("https://example.com").is_ok());
+        assert!(parse_origin("http://localhost").is_ok());
+        assert!(parse_origin("https://sub.example.com:8443").is_ok());
+    }
+
+    #[test]
+    fn test_parse_origin_invalid_scheme() {
+        assert!(parse_origin("ftp://example.com").is_err());
+        assert!(parse_origin("ws://example.com").is_err());
+    }
+
+    #[test]
+    fn test_parse_origin_not_a_url() {
+        assert!(parse_origin("not-a-url").is_err());
+        assert!(parse_origin("").is_err());
+    }
+
+    #[test]
+    fn test_parse_origin_missing_host() {
+        assert!(parse_origin("http://").is_err());
+        assert!(parse_origin("https://").is_err());
+    }
+
+    #[test]
+    fn test_parse_origin_with_path() {
+        assert!(parse_origin("http://example.com/path").is_err());
+        assert!(parse_origin("https://example.com/api/v1").is_err());
+    }
+
+    #[test]
+    fn test_parse_origin_with_query() {
+        assert!(parse_origin("http://example.com?foo=bar").is_err());
+    }
+
+    #[test]
+    fn test_parse_origin_with_fragment() {
+        assert!(parse_origin("http://example.com#section").is_err());
     }
 }
