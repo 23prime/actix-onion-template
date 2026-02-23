@@ -19,11 +19,11 @@ echo "Applying schema..."
 echo
 
 echo "Resetting test data..."
-docker compose exec -T db psql -U postgres app_test -c "TRUNCATE TABLE users;"
+docker compose exec -T db psql -U postgres app_test -c "TRUNCATE TABLE users CASCADE;"
 echo
 
 echo "Starting server..."
-(cd app && DATABASE_URL="${TEST_DATABASE_URL}" cargo run) &
+(cd app && DATABASE_URL="${TEST_DATABASE_URL}" JWT_SECRET="${JWT_SECRET:-test-secret}" cargo run) &
 SERVER_PID=$!
 echo
 
