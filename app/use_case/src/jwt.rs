@@ -10,14 +10,16 @@ pub struct JwtConfig {
 #[derive(Serialize, Deserialize)]
 struct Claims {
     sub: String,
+    iat: u64,
     exp: u64,
 }
 
 pub fn issue_token(user_id: &UserId, config: &JwtConfig) -> Result<String, AuthError> {
-    let exp = jsonwebtoken::get_current_timestamp() + config.expires_in_secs;
+    let now = jsonwebtoken::get_current_timestamp();
     let claims = Claims {
         sub: user_id.0.to_string(),
-        exp,
+        iat: now,
+        exp: now + config.expires_in_secs,
     };
     encode(
         &Header::default(),
