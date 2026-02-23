@@ -13,6 +13,16 @@ pub struct CreateUserInput {
     pub password: String,
 }
 
+impl std::fmt::Debug for CreateUserInput {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("CreateUserInput")
+            .field("name", &self.name)
+            .field("email", &self.email)
+            .field("password", &"[REDACTED]")
+            .finish()
+    }
+}
+
 pub struct CreateUser<R: UserRepository, C: CredentialsRepository> {
     user_repo: R,
     credentials_repo: C,

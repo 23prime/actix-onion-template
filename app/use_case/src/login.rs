@@ -9,6 +9,15 @@ pub struct LoginInput {
     pub password: String,
 }
 
+impl std::fmt::Debug for LoginInput {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("LoginInput")
+            .field("email", &self.email)
+            .field("password", &"[REDACTED]")
+            .finish()
+    }
+}
+
 pub struct Login<R: UserRepository, C: CredentialsRepository> {
     user_repo: R,
     credentials_repo: C,
