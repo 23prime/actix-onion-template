@@ -32,13 +32,13 @@ impl<R: UserRepository, C: CredentialsRepository> Login<R, C> {
             .find_by_email(&input.email)
             .await
             .map_err(|e| AuthError::Unexpected(e.to_string()))?
-            .ok_or(AuthError::UserNotFound)?;
+            .ok_or(AuthError::InvalidCredentials)?;
 
         let credentials = self
             .credentials_repo
             .find_by_user_id(&user.id)
             .await?
-            .ok_or(AuthError::UserNotFound)?;
+            .ok_or(AuthError::InvalidCredentials)?;
 
         if !credentials.verify_password(&input.password) {
             return Err(AuthError::InvalidCredentials);
