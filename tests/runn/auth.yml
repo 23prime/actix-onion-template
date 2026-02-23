@@ -23,7 +23,7 @@ steps:
             application/json:
               email: bob@example.com
               password: password123
-    test: current.res.status == 200 && current.res.body.access_token != "" && current.res.body.token_type == "Bearer"
+    test: current.res.status == 200 && current.res.body.access_token != "" && current.res.body.token_type == "Bearer" && current.res.body.expires_in > 0
 
   login_wrong_password:
     desc: POST /auth/login with wrong password returns 401
