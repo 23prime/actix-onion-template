@@ -23,7 +23,7 @@ docker compose exec -T db psql -U postgres app_test -c "TRUNCATE TABLE users CAS
 echo
 
 echo "Starting server..."
-(cd app && DATABASE_URL="${TEST_DATABASE_URL}" JWT_SECRET="${JWT_SECRET:-test-secret}" cargo run) &
+(cd app && DATABASE_URL="${TEST_DATABASE_URL}" JWT_SECRET="${JWT_SECRET:-test-secret-for-integration-testing}" cargo run) &
 SERVER_PID=$!
 echo
 
