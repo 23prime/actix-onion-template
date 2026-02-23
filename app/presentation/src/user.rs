@@ -3,7 +3,7 @@ use container::Container;
 use domain::user::UserId;
 use serde::{Deserialize, Serialize};
 use use_case::{
-    create_user::{CreateUser, CreateUserInput},
+    create_user::{CreateUser, CreateUserError, CreateUserInput},
     get_user::GetUser,
 };
 use uuid::Uuid;
@@ -12,6 +12,7 @@ use uuid::Uuid;
 pub struct CreateUserRequest {
     pub name: String,
     pub email: String,
+    pub password: String,
 }
 
 #[derive(Serialize)]
@@ -26,10 +27,14 @@ pub async fn create_user(
     container: web::Data<Container>,
     body: web::Json<CreateUserRequest>,
 ) -> HttpResponse {
-    let use_case = CreateUser::new(container.user_repo.clone());
+    let use_case = CreateUser::new(
+        container.user_repo.clone(),
+        container.credentials_repo.clone(),
+    );
     let input = CreateUserInput {
         name: body.name.clone(),
         email: body.email.clone(),
+        password: body.password.clone(),
     };
     match use_case.execute(input).await {
         Ok(user) => HttpResponse::Created().json(UserResponse {
@@ -38,7 +43,7 @@ pub async fn create_user(
             email: user.email,
             created_at: user.created_at.to_rfc3339(),
         }),
-        Err(domain::user::UserError::EmailAlreadyExists) => {
+        Err(CreateUserError::User(domain::user::UserError::EmailAlreadyExists)) => {
             HttpResponse::Conflict().json(serde_json::json!({ "error": "email_already_exists" }))
         }
         Err(e) => {
