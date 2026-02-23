@@ -6,6 +6,7 @@ members = [
   "presentation",
   "infrastructure",
   "container",
+  "seeder",
 ]
 resolver = "2"
 

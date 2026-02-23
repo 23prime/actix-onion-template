@@ -188,3 +188,9 @@ alias = "sf"
 description = "Check SQL files"
 run = "sqruff lint db/schema.sql"
 alias = "sc"
+
+# Seeder
+[tasks.seed]
+description = "Seed database for the specified environment (ENV=local)"
+run = "ENV=\"${ENV:-local}\" cargo run --bin seeder"
+dir = "{{vars.app_dir}}"
