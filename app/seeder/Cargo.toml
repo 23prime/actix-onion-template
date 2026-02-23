@@ -1,0 +1,16 @@
+[package]
+name = "seeder"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "seeder"
+path = "src/main.rs"
+
+[dependencies]
+chrono = { workspace = true }
+domain = { path = "../domain" }
+infrastructure = { path = "../infrastructure" }
+sqlx = { workspace = true }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+uuid = { workspace = true }

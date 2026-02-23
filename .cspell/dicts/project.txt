@@ -21,3 +21,7 @@ psql
 uuidv
 quarylabs
 sqruff
+jsonwebtoken
+getrandom
+argon
+DOTALL

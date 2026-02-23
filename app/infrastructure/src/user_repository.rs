@@ -47,6 +47,18 @@ impl UserRepository for PgUserRepository {
         Ok(row.map(User::from))
     }
 
+    async fn find_by_email(&self, email: &str) -> Result<Option<User>, UserError> {
+        let row = sqlx::query_as::<_, UserRow>(
+            "SELECT id, name, email, created_at FROM users WHERE email = $1",
+        )
+        .bind(email)
+        .fetch_optional(&self.pool)
+        .await
+        .map_err(|e| UserError::Unexpected(e.to_string()))?;
+
+        Ok(row.map(User::from))
+    }
+
     async fn save(&self, user: &User) -> Result<(), UserError> {
         sqlx::query("INSERT INTO users (id, name, email, created_at) VALUES ($1, $2, $3, $4)")
             .bind(user.id.0)

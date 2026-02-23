@@ -11,6 +11,7 @@ graph TB
     subgraph outer["Outer Layer"]
         server
         container
+        seeder
     end
     subgraph middle["Infrastructure / Presentation Layer"]
         infrastructure
@@ -32,6 +33,8 @@ graph TB
     presentation --> use_case
     presentation --> domain
     use_case --> domain
+    seeder --> domain
+    seeder --> infrastructure
 ```
 
 | Crate | Kind | Responsibility |
@@ -42,6 +45,7 @@ graph TB
 | `infrastructure` | lib | Repository implementations, external services |
 | `container` | lib | DI container holding repository trait objects |
 | `server` | binary | Wires dependencies, initializes infrastructure |
+| `seeder` | binary | Seeds the database with initial data |
 
 ## Tech Stack
 
@@ -116,6 +120,7 @@ mise run db-apply
 | Command | Alias | Description |
 | --- | --- | --- |
 | `mise run integration-test` | `mise run it` | Run integration tests |
+| `mise run seed` | | Seed the database (ENV=local) |
 
 ## Contributing
 

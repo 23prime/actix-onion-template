@@ -9,6 +9,8 @@ pub struct Config {
     pub log_format: LogFormat,
     pub cors_allowed_origins: Vec<String>,
     pub database_url: String,
+    pub jwt_secret: String,
+    pub jwt_expires_in_secs: u64,
 }
 
 impl Config {
@@ -54,12 +56,27 @@ impl Config {
         let database_url =
             env::var("DATABASE_URL").map_err(|_| ConfigError::Missing("DATABASE_URL".into()))?;
 
+        let jwt_secret =
+            env::var("JWT_SECRET").map_err(|_| ConfigError::Missing("JWT_SECRET".into()))?;
+        validate_jwt_secret(&jwt_secret)?;
+
+        let jwt_expires_in_secs = env::var("JWT_EXPIRES_IN_SECS")
+            .unwrap_or_else(|_| "3600".to_string())
+            .parse::<u64>()
+            .map_err(|e| ConfigError::Invalid {
+                key: "JWT_EXPIRES_IN_SECS".into(),
+                reason: e.to_string(),
+            })?;
+        validate_jwt_expires_in_secs(jwt_expires_in_secs)?;
+
         Ok(Self {
             port,
             log_level,
             log_format,
             cors_allowed_origins,
             database_url,
+            jwt_secret,
+            jwt_expires_in_secs,
         })
     }
 }
@@ -142,6 +159,26 @@ impl std::str::FromStr for LogFormat {
     }
 }
 
+fn validate_jwt_secret(secret: &str) -> Result<(), ConfigError> {
+    if secret.len() < 32 {
+        return Err(ConfigError::Invalid {
+            key: "JWT_SECRET".into(),
+            reason: "must be at least 32 characters".into(),
+        });
+    }
+    Ok(())
+}
+
+fn validate_jwt_expires_in_secs(secs: u64) -> Result<(), ConfigError> {
+    if secs > 604_800 {
+        return Err(ConfigError::Invalid {
+            key: "JWT_EXPIRES_IN_SECS".into(),
+            reason: "must not exceed 604800 (7 days)".into(),
+        });
+    }
+    Ok(())
+}
+
 fn parse_origin(s: &str) -> Result<(), String> {
     let url = Url::parse(s).map_err(|e| format!("'{s}' is not a valid URL: {e}"))?;
 
@@ -211,5 +248,41 @@ mod tests {
     #[test]
     fn test_parse_origin_with_fragment() {
         assert!(parse_origin("http://example.com#section").is_err());
+    }
+
+    #[test]
+    fn test_jwt_secret_too_short() {
+        assert!(matches!(
+            validate_jwt_secret("short"),
+            Err(ConfigError::Invalid { key, .. }) if key == "JWT_SECRET"
+        ));
+        assert!(matches!(
+            validate_jwt_secret(&"a".repeat(31)),
+            Err(ConfigError::Invalid { key, .. }) if key == "JWT_SECRET"
+        ));
+    }
+
+    #[test]
+    fn test_jwt_secret_minimum_length() {
+        assert!(validate_jwt_secret(&"a".repeat(32)).is_ok());
+        assert!(validate_jwt_secret(&"a".repeat(64)).is_ok());
+    }
+
+    #[test]
+    fn test_jwt_expires_in_secs_too_large() {
+        assert!(matches!(
+            validate_jwt_expires_in_secs(604_801),
+            Err(ConfigError::Invalid { key, .. }) if key == "JWT_EXPIRES_IN_SECS"
+        ));
+        assert!(matches!(
+            validate_jwt_expires_in_secs(u64::MAX),
+            Err(ConfigError::Invalid { key, .. }) if key == "JWT_EXPIRES_IN_SECS"
+        ));
+    }
+
+    #[test]
+    fn test_jwt_expires_in_secs_maximum() {
+        assert!(validate_jwt_expires_in_secs(604_800).is_ok());
+        assert!(validate_jwt_expires_in_secs(3600).is_ok());
     }
 }
