@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#MISE description="Seed database for the specified environment (ENV=local)"
+set -euo pipefail
+
+ENV="${ENV:-local}"
+SCRIPT="db/seeds/${ENV}.sh"
+
+if [[ ! -f "${SCRIPT}" ]]; then
+  echo "Seed script not found: ${SCRIPT}"
+  exit 1
+fi
+
+bash "${SCRIPT}"
