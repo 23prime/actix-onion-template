@@ -2,7 +2,10 @@ use actix_web::{HttpResponse, web};
 use container::Container;
 use domain::user::UserId;
 use serde::{Deserialize, Serialize};
-use use_case::user::{CreateUser, CreateUserInput, GetUser};
+use use_case::{
+    create_user::{CreateUser, CreateUserInput},
+    get_user::GetUser,
+};
 use uuid::Uuid;
 
 #[derive(Deserialize)]
