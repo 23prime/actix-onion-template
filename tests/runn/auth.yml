@@ -1,0 +1,48 @@
+desc: Auth API
+runners:
+  req: http://localhost:8080
+steps:
+  setup_user:
+    desc: Create a user for login tests
+    req:
+      /users:
+        post:
+          body:
+            application/json:
+              name: Bob
+              email: bob@example.com
+              password: password123
+    test: current.res.status == 201
+
+  login_success:
+    desc: POST /auth/login with correct credentials returns 200 with access_token
+    req:
+      /auth/login:
+        post:
+          body:
+            application/json:
+              email: bob@example.com
+              password: password123
+    test: current.res.status == 200 && current.res.body.access_token != "" && current.res.body.token_type == "Bearer"
+
+  login_wrong_password:
+    desc: POST /auth/login with wrong password returns 401
+    req:
+      /auth/login:
+        post:
+          body:
+            application/json:
+              email: bob@example.com
+              password: wrong_password
+    test: current.res.status == 401
+
+  login_unknown_email:
+    desc: POST /auth/login with unknown email returns 401
+    req:
+      /auth/login:
+        post:
+          body:
+            application/json:
+              email: unknown@example.com
+              password: password123
+    test: current.res.status == 401

@@ -11,6 +11,7 @@ steps:
             application/json:
               name: Alice
               email: alice@example.com
+              password: password123
     test: current.res.status == 201 && current.res.body.name == "Alice" && current.res.body.email == "alice@example.com"
 
   get_user:
@@ -29,6 +30,7 @@ steps:
             application/json:
               name: Alice2
               email: alice@example.com
+              password: password123
     test: current.res.status == 409
 
   get_nonexistent:
