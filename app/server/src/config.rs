@@ -9,6 +9,8 @@ pub struct Config {
     pub log_format: LogFormat,
     pub cors_allowed_origins: Vec<String>,
     pub database_url: String,
+    pub jwt_secret: String,
+    pub jwt_expires_in_secs: u64,
 }
 
 impl Config {
@@ -54,12 +56,25 @@ impl Config {
         let database_url =
             env::var("DATABASE_URL").map_err(|_| ConfigError::Missing("DATABASE_URL".into()))?;
 
+        let jwt_secret =
+            env::var("JWT_SECRET").map_err(|_| ConfigError::Missing("JWT_SECRET".into()))?;
+
+        let jwt_expires_in_secs = env::var("JWT_EXPIRES_IN_SECS")
+            .unwrap_or_else(|_| "3600".to_string())
+            .parse::<u64>()
+            .map_err(|e| ConfigError::Invalid {
+                key: "JWT_EXPIRES_IN_SECS".into(),
+                reason: e.to_string(),
+            })?;
+
         Ok(Self {
             port,
             log_level,
             log_format,
             cors_allowed_origins,
             database_url,
+            jwt_secret,
+            jwt_expires_in_secs,
         })
     }
 }
