@@ -5,6 +5,7 @@
     "EditorConfig.EditorConfig",
     "DavidAnson.vscode-markdownlint",
     "rust-lang.rust-analyzer",
-    "Quary.sqruff"
+    "Quary.sqruff",
+    "humao.rest-client"
   ]
 }
