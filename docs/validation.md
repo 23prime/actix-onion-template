@@ -32,7 +32,7 @@ Add to the workspace:
 
 ```toml
 # Cargo.toml (workspace)
-garde = { version = "0.22", features = ["derive"] }
+garde = { version = "0.22", features = ["derive", "email"] }
 ```
 
 ## Pattern for Input Structs
