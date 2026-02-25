@@ -83,3 +83,70 @@ impl std::fmt::Display for CreateUserError {
 }
 
 impl std::error::Error for CreateUserError {}
+
+#[cfg(test)]
+mod tests {
+    use garde::Validate;
+
+    use super::*;
+
+    fn valid_input() -> CreateUserInput {
+        CreateUserInput {
+            name: "Alice".to_string(),
+            email: "alice@example.com".to_string(),
+            password: "password123".to_string(),
+        }
+    }
+
+    #[test]
+    fn valid_input_passes() {
+        assert!(valid_input().validate().is_ok());
+    }
+
+    #[test]
+    fn empty_name_is_rejected() {
+        let input = CreateUserInput {
+            name: "".to_string(),
+            ..valid_input()
+        };
+        let report = input.validate().unwrap_err();
+        assert!(report.iter().any(|(path, _)| path.to_string() == "name"));
+    }
+
+    #[test]
+    fn invalid_email_is_rejected() {
+        let input = CreateUserInput {
+            email: "not-an-email".to_string(),
+            ..valid_input()
+        };
+        let report = input.validate().unwrap_err();
+        assert!(report.iter().any(|(path, _)| path.to_string() == "email"));
+    }
+
+    #[test]
+    fn short_password_is_rejected() {
+        let input = CreateUserInput {
+            password: "short".to_string(),
+            ..valid_input()
+        };
+        let report = input.validate().unwrap_err();
+        assert!(
+            report
+                .iter()
+                .any(|(path, _)| path.to_string() == "password")
+        );
+    }
+
+    #[test]
+    fn multiple_errors_are_reported_together() {
+        let input = CreateUserInput {
+            name: "".to_string(),
+            email: "bad".to_string(),
+            ..valid_input()
+        };
+        let report = input.validate().unwrap_err();
+        let paths: Vec<_> = report.iter().map(|(path, _)| path.to_string()).collect();
+        assert!(paths.contains(&"name".to_string()));
+        assert!(paths.contains(&"email".to_string()));
+    }
+}

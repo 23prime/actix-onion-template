@@ -81,6 +81,45 @@ impl std::fmt::Display for LoginError {
 
 impl std::error::Error for LoginError {}
 
-// Keep AuthError imported only if still needed by the compiler via CredentialsRepository trait
-#[allow(unused_imports)]
-use domain::auth_error::AuthError as _;
+#[cfg(test)]
+mod tests {
+    use garde::Validate;
+
+    use super::*;
+
+    fn valid_input() -> LoginInput {
+        LoginInput {
+            email: "alice@example.com".to_string(),
+            password: "password123".to_string(),
+        }
+    }
+
+    #[test]
+    fn valid_input_passes() {
+        assert!(valid_input().validate().is_ok());
+    }
+
+    #[test]
+    fn invalid_email_is_rejected() {
+        let input = LoginInput {
+            email: "bad".to_string(),
+            ..valid_input()
+        };
+        let report = input.validate().unwrap_err();
+        assert!(report.iter().any(|(path, _)| path.to_string() == "email"));
+    }
+
+    #[test]
+    fn short_password_is_rejected() {
+        let input = LoginInput {
+            password: "1234567".to_string(),
+            ..valid_input()
+        };
+        let report = input.validate().unwrap_err();
+        assert!(
+            report
+                .iter()
+                .any(|(path, _)| path.to_string() == "password")
+        );
+    }
+}
