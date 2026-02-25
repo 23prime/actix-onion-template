@@ -5,11 +5,16 @@ use domain::{
     credentials_repository::CredentialsRepository,
     user::{User, UserError, UserId, UserRepository},
 };
+use garde::Validate;
 use uuid::Uuid;
 
+#[derive(Validate)]
 pub struct CreateUserInput {
+    #[garde(length(min = 1))]
     pub name: String,
+    #[garde(email)]
     pub email: String,
+    #[garde(length(min = 8))]
     pub password: String,
 }
 
@@ -37,6 +42,7 @@ impl<R: UserRepository, C: CredentialsRepository> CreateUser<R, C> {
     }
 
     pub async fn execute(&self, input: CreateUserInput) -> Result<User, CreateUserError> {
+        input.validate().map_err(CreateUserError::Validation)?;
         let user = User {
             id: UserId::new(Uuid::now_v7()),
             name: input.name,
@@ -61,6 +67,7 @@ impl<R: UserRepository, C: CredentialsRepository> CreateUser<R, C> {
 
 #[derive(Debug)]
 pub enum CreateUserError {
+    Validation(garde::Report),
     User(UserError),
     Auth(AuthError),
 }
@@ -68,6 +75,7 @@ pub enum CreateUserError {
 impl std::fmt::Display for CreateUserError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            CreateUserError::Validation(report) => write!(f, "validation error: {report}"),
             CreateUserError::User(e) => write!(f, "{e}"),
             CreateUserError::Auth(e) => write!(f, "{e}"),
         }

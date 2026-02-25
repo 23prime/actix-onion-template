@@ -55,16 +55,14 @@ pub struct CreateUserInput {
 
 ## Calling Validation in `execute()`
 
-At the very start of `execute()`, call `input.validate(&())` and map the error:
+At the very start of `execute()`, call `input.validate()` and map the error:
 
 ```rust
 pub async fn execute(&self, input: CreateUserInput) -> Result<User, CreateUserError> {
-    input.validate(&()).map_err(CreateUserError::Validation)?;
+    input.validate().map_err(CreateUserError::Validation)?;
     // ...
 }
 ```
-
-The `&()` is the context argument — pass `&()` when no external context is needed.
 
 ## Error Enum Convention
 
