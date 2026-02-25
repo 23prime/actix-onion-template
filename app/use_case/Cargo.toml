@@ -11,3 +11,6 @@ domain = { path = "../domain" }
 jsonwebtoken = { workspace = true }
 serde = { workspace = true }
 uuid = { workspace = true }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt", "macros"] }
