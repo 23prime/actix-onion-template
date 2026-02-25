@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 async-trait = { workspace = true }
+garde = { workspace = true }
 chrono = { workspace = true }
 domain = { path = "../domain" }
 jsonwebtoken = { workspace = true }
