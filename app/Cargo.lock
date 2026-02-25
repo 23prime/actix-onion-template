@@ -1555,6 +1555,7 @@ dependencies = [
  "actix-web",
  "container",
  "domain",
+ "garde",
  "serde",
  "serde_json",
  "tracing",

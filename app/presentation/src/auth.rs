@@ -2,9 +2,12 @@ use actix_web::{HttpResponse, web};
 use container::Container;
 use serde::{Deserialize, Serialize};
 use use_case::{
+    LoginError,
     jwt::JwtConfig,
     login::{Login, LoginInput},
 };
+
+use crate::validation_fields;
 
 #[derive(Deserialize)]
 pub struct LoginRequest {
@@ -38,8 +41,13 @@ pub async fn login(
             token_type: "Bearer".to_string(),
             expires_in: jwt_config.expires_in_secs,
         }),
-        Err(domain::auth_error::AuthError::UserNotFound)
-        | Err(domain::auth_error::AuthError::InvalidCredentials) => {
+        Err(LoginError::Validation(report)) => {
+            HttpResponse::UnprocessableEntity().json(serde_json::json!({
+                "error": "validation_error",
+                "fields": validation_fields(&report),
+            }))
+        }
+        Err(LoginError::InvalidCredentials) => {
             HttpResponse::Unauthorized().json(serde_json::json!({ "error": "invalid_credentials" }))
         }
         Err(e) => {

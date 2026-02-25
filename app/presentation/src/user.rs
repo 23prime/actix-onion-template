@@ -8,6 +8,8 @@ use use_case::{
 };
 use uuid::Uuid;
 
+use crate::validation_fields;
+
 #[derive(Deserialize)]
 pub struct CreateUserRequest {
     pub name: String,
@@ -43,6 +45,12 @@ pub async fn create_user(
             email: user.email,
             created_at: user.created_at.to_rfc3339(),
         }),
+        Err(CreateUserError::Validation(report)) => {
+            HttpResponse::UnprocessableEntity().json(serde_json::json!({
+                "error": "validation_error",
+                "fields": validation_fields(&report),
+            }))
+        }
         Err(CreateUserError::User(domain::user::UserError::EmailAlreadyExists)) => {
             HttpResponse::Conflict().json(serde_json::json!({ "error": "email_already_exists" }))
         }

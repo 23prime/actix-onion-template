@@ -103,23 +103,43 @@ Return `422 Unprocessable Entity` with:
 }
 ```
 
-Build the response from `garde::Report` in the presentation handler:
+Build the `fields` map from `garde::Report` using a shared helper in the presentation crate,
+then return it in the handler's `Validation` arm:
 
 ```rust
-CreateUserError::Validation(report) => {
-    let fields: HashMap<_, _> = report
-        .iter()
-        .map(|(path, errors)| {
-            let msgs: Vec<_> = errors.iter().map(|e| e.message().to_string()).collect();
-            (path.to_string(), msgs)
-        })
-        .collect();
-    HttpResponse::UnprocessableEntity().json(json!({
+// presentation/src/lib.rs
+pub(crate) fn validation_fields(
+    report: &garde::Report,
+) -> std::collections::HashMap<String, Vec<String>> {
+    let mut fields: std::collections::HashMap<String, Vec<String>> =
+        std::collections::HashMap::new();
+    for (path, error) in report.iter() {
+        fields
+            .entry(path.to_string())
+            .or_default()
+            .push(error.message().to_string());
+    }
+    fields
+}
+```
+
+```rust
+// handler match arm
+Err(CreateUserError::Validation(report)) => {
+    HttpResponse::UnprocessableEntity().json(serde_json::json!({
         "error": "validation_error",
-        "fields": fields,
+        "fields": validation_fields(&report),
     }))
 }
 ```
+
+Note: `garde::Report::iter()` yields `&(Path, Error)` pairs — one entry per violation.
+Multiple violations on the same field produce multiple entries with the same path,
+which the helper groups into a `Vec<String>` under that field key.
+
+Note: `impl actix_web::ResponseError` cannot be used here because both `LoginError`/`CreateUserError`
+(from `use_case`) and `ResponseError` (from `actix_web`) are foreign to the `presentation` crate.
+The helper-function pattern achieves the same deduplication.
 
 ## Step-by-Step: Adding a New Rule
 

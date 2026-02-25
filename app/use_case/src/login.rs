@@ -1,11 +1,13 @@
-use domain::{
-    auth_error::AuthError, credentials_repository::CredentialsRepository, user::UserRepository,
-};
+use domain::{credentials_repository::CredentialsRepository, user::UserRepository};
+use garde::Validate;
 
 use crate::jwt::{JwtConfig, issue_token};
 
+#[derive(Validate)]
 pub struct LoginInput {
+    #[garde(email)]
     pub email: String,
+    #[garde(length(min = 8))]
     pub password: String,
 }
 
@@ -35,24 +37,50 @@ impl<R: UserRepository, C: CredentialsRepository> Login<R, C> {
         &self,
         input: LoginInput,
         jwt_config: &JwtConfig,
-    ) -> Result<String, AuthError> {
+    ) -> Result<String, LoginError> {
+        input.validate().map_err(LoginError::Validation)?;
+
         let user = self
             .user_repo
             .find_by_email(&input.email)
             .await
-            .map_err(|e| AuthError::Unexpected(e.to_string()))?
-            .ok_or(AuthError::InvalidCredentials)?;
+            .map_err(|e| LoginError::Unexpected(e.to_string()))?
+            .ok_or(LoginError::InvalidCredentials)?;
 
         let credentials = self
             .credentials_repo
             .find_by_user_id(&user.id)
-            .await?
-            .ok_or(AuthError::InvalidCredentials)?;
+            .await
+            .map_err(|e| LoginError::Unexpected(e.to_string()))?
+            .ok_or(LoginError::InvalidCredentials)?;
 
         if !credentials.verify_password(&input.password) {
-            return Err(AuthError::InvalidCredentials);
+            return Err(LoginError::InvalidCredentials);
         }
 
-        issue_token(&user.id, jwt_config)
+        issue_token(&user.id, jwt_config).map_err(|e| LoginError::Unexpected(e.to_string()))
     }
 }
+
+#[derive(Debug)]
+pub enum LoginError {
+    Validation(garde::Report),
+    InvalidCredentials,
+    Unexpected(String),
+}
+
+impl std::fmt::Display for LoginError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            LoginError::Validation(report) => write!(f, "validation error: {report}"),
+            LoginError::InvalidCredentials => write!(f, "invalid credentials"),
+            LoginError::Unexpected(msg) => write!(f, "unexpected error: {msg}"),
+        }
+    }
+}
+
+impl std::error::Error for LoginError {}
+
+// Keep AuthError imported only if still needed by the compiler via CredentialsRepository trait
+#[allow(unused_imports)]
+use domain::auth_error::AuthError as _;
