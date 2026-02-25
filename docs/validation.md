@@ -185,65 +185,32 @@ structural checks (e.g. "cannot construct this value in an invalid state") live 
 
 ## Consolidating Error Mapping in the Presentation Layer
 
-Rather than repeating the `garde::Report → JSON` conversion in every handler,
-implement `actix_web::ResponseError` for each use-case error enum.
-This keeps handler bodies free of error-formatting logic.
+`impl actix_web::ResponseError` cannot be used to consolidate error formatting
+because both the use-case error types (e.g. `CreateUserError`) and the trait
+(`actix_web::ResponseError`) are foreign to the `presentation` crate, violating
+Rust's orphan rule.
+
+Instead, define a shared helper in `presentation/src/lib.rs` that converts a
+`garde::Report` to the fields map, and call it from each handler's `Validation`
+match arm:
 
 ```rust
-use actix_web::HttpResponse;
-use std::collections::HashMap;
-
-impl actix_web::ResponseError for CreateUserError {
-    fn error_response(&self) -> HttpResponse {
-        match self {
-            CreateUserError::Validation(report) => {
-                let fields: HashMap<_, _> = report
-                    .iter()
-                    .map(|(path, errors)| {
-                        let msgs: Vec<_> =
-                            errors.iter().map(|e| e.message().to_string()).collect();
-                        (path.to_string(), msgs)
-                    })
-                    .collect();
-                HttpResponse::UnprocessableEntity().json(serde_json::json!({
-                    "error": "validation_error",
-                    "fields": fields,
-                }))
-            }
-            CreateUserError::User(domain::user::UserError::EmailAlreadyExists) => {
-                HttpResponse::Conflict()
-                    .json(serde_json::json!({ "error": "email_already_exists" }))
-            }
-            _ => HttpResponse::InternalServerError()
-                .json(serde_json::json!({ "error": "internal_server_error" })),
-        }
+// presentation/src/lib.rs
+pub(crate) fn validation_fields(
+    report: &garde::Report,
+) -> std::collections::HashMap<String, Vec<String>> {
+    let mut fields: std::collections::HashMap<String, Vec<String>> =
+        std::collections::HashMap::new();
+    for (path, error) in report.iter() {
+        fields
+            .entry(path.to_string())
+            .or_default()
+            .push(error.message().to_string());
     }
+    fields
 }
 ```
 
-With `ResponseError` implemented, the handler returns `Result<HttpResponse, CreateUserError>`
-and Actix Web calls `error_response()` automatically on `Err`:
-
-```rust
-pub async fn create_user(
-    container: web::Data<Container>,
-    body: web::Json<CreateUserRequest>,
-) -> Result<HttpResponse, CreateUserError> {
-    let use_case = CreateUser::new(
-        container.user_repo.clone(),
-        container.credentials_repo.clone(),
-    );
-    let input = CreateUserInput {
-        name: body.name.clone(),
-        email: body.email.clone(),
-        password: body.password.clone(),
-    };
-    let user = use_case.execute(input).await?;
-    Ok(HttpResponse::Created().json(UserResponse {
-        id: user.id.0.to_string(),
-        name: user.name,
-        email: user.email,
-        created_at: user.created_at.to_rfc3339(),
-    }))
-}
-```
+Each handler matches on the error variants explicitly and calls the helper for
+the `Validation` arm. This keeps the `garde::Report → JSON` conversion in one
+place while respecting the ownership boundaries between crates.
