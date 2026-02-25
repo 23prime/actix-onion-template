@@ -2534,6 +2534,7 @@ dependencies = [
  "garde",
  "jsonwebtoken",
  "serde",
+ "tokio",
  "uuid",
 ]
 
