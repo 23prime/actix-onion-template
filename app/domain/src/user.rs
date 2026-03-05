@@ -1,5 +1,9 @@
 use std::sync::Arc;
 
+use argon2::{
+    Argon2,
+    password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString, rand_core::OsRng},
+};
 use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
@@ -14,12 +18,64 @@ impl UserId {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Clone)]
+pub struct PasswordCredential {
+    pub password_hash: String,
+    pub created_at: DateTime<Utc>,
+}
+
+impl std::fmt::Debug for PasswordCredential {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PasswordCredential")
+            .field("password_hash", &"[REDACTED]")
+            .field("created_at", &self.created_at)
+            .finish()
+    }
+}
+
+impl PasswordCredential {
+    pub fn new(password: &str) -> Result<Self, UserError> {
+        let salt = SaltString::generate(&mut OsRng);
+        let password_hash = Argon2::default()
+            .hash_password(password.as_bytes(), &salt)
+            .map_err(|e| UserError::Unexpected(e.to_string()))?
+            .to_string();
+        Ok(Self {
+            password_hash,
+            created_at: Utc::now(),
+        })
+    }
+
+    pub fn verify(&self, password: &str) -> bool {
+        let Ok(parsed_hash) = PasswordHash::new(&self.password_hash) else {
+            return false;
+        };
+        Argon2::default()
+            .verify_password(password.as_bytes(), &parsed_hash)
+            .is_ok()
+    }
+}
+
+#[derive(Debug, Clone)]
+pub enum Credential {
+    Password(PasswordCredential),
+}
+
+#[derive(Debug, Clone)]
 pub struct User {
     pub id: UserId,
     pub name: String,
     pub email: String,
     pub created_at: DateTime<Utc>,
+    pub credential: Credential,
+}
+
+impl User {
+    pub fn verify_password(&self, password: &str) -> bool {
+        match &self.credential {
+            Credential::Password(pc) => pc.verify(password),
+        }
+    }
 }
 
 #[async_trait]

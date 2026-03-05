@@ -1,4 +1,4 @@
-use domain::{credentials_repository::CredentialsRepository, user::UserRepository};
+use domain::user::UserRepository;
 use garde::Validate;
 
 use crate::jwt::{JwtConfig, issue_token};
@@ -20,21 +20,17 @@ impl std::fmt::Debug for LoginInput {
     }
 }
 
-pub struct Login<R: UserRepository, C: CredentialsRepository> {
+pub struct Login<R: UserRepository> {
     user_repo: R,
-    credentials_repo: C,
 }
 
 fn to_unexpected<E: std::fmt::Display>(e: E) -> LoginError {
     LoginError::Unexpected(e.to_string())
 }
 
-impl<R: UserRepository, C: CredentialsRepository> Login<R, C> {
-    pub fn new(user_repo: R, credentials_repo: C) -> Self {
-        Self {
-            user_repo,
-            credentials_repo,
-        }
+impl<R: UserRepository> Login<R> {
+    pub fn new(user_repo: R) -> Self {
+        Self { user_repo }
     }
 
     pub async fn execute(
@@ -51,14 +47,13 @@ impl<R: UserRepository, C: CredentialsRepository> Login<R, C> {
             .map_err(to_unexpected)?
             .ok_or(LoginError::InvalidCredentials)?;
 
-        let credentials = self
-            .credentials_repo
-            .find_by_user_id(&user.id)
-            .await
-            .map_err(to_unexpected)?
-            .ok_or(LoginError::InvalidCredentials)?;
-
-        if !credentials.verify_password(&input.password) {
+        let password = input.password.clone();
+        let user_for_verify = user.clone();
+        let is_valid =
+            tokio::task::spawn_blocking(move || user_for_verify.verify_password(&password))
+                .await
+                .map_err(to_unexpected)?;
+        if !is_valid {
             return Err(LoginError::InvalidCredentials);
         }
 
@@ -88,11 +83,7 @@ impl std::error::Error for LoginError {}
 #[cfg(test)]
 mod tests {
     use async_trait::async_trait;
-    use domain::{
-        auth_error::AuthError,
-        credentials::Credentials,
-        user::{User, UserError, UserId},
-    };
+    use domain::user::{User, UserError, UserId};
     use garde::Validate;
 
     use super::*;
@@ -100,7 +91,7 @@ mod tests {
     struct PanicUserRepo;
 
     #[async_trait]
-    impl domain::user::UserRepository for PanicUserRepo {
+    impl UserRepository for PanicUserRepo {
         async fn find_by_id(&self, _: &UserId) -> Result<Option<User>, UserError> {
             panic!("repo must not be called")
         }
@@ -110,19 +101,6 @@ mod tests {
         }
 
         async fn save(&self, _: &User) -> Result<(), UserError> {
-            panic!("repo must not be called")
-        }
-    }
-
-    struct PanicCredentialsRepo;
-
-    #[async_trait]
-    impl domain::credentials_repository::CredentialsRepository for PanicCredentialsRepo {
-        async fn find_by_user_id(&self, _: &UserId) -> Result<Option<Credentials>, AuthError> {
-            panic!("repo must not be called")
-        }
-
-        async fn save(&self, _: &Credentials) -> Result<(), AuthError> {
             panic!("repo must not be called")
         }
     }
@@ -165,7 +143,7 @@ mod tests {
 
     #[tokio::test]
     async fn execute_returns_validation_error_before_calling_repo() {
-        let use_case = Login::new(PanicUserRepo, PanicCredentialsRepo);
+        let use_case = Login::new(PanicUserRepo);
         let input = LoginInput {
             email: "not-an-email".to_string(),
             password: "short".to_string(),
