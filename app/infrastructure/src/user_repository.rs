@@ -24,19 +24,31 @@ struct UserWithCredentialRow {
     credential_created_at: Option<DateTime<Utc>>,
 }
 
-fn collect_user(rows: Vec<UserWithCredentialRow>) -> Option<User> {
-    let first = rows.first()?;
+fn collect_user(rows: Vec<UserWithCredentialRow>) -> Result<Option<User>, UserError> {
+    let Some(first) = rows.first() else {
+        return Ok(None);
+    };
+    let (password_hash, credential_created_at) =
+        match (&first.password_hash, first.credential_created_at) {
+            (Some(h), Some(t)) => (h.clone(), t),
+            _ => {
+                return Err(UserError::Unexpected(format!(
+                    "invariant violation: user {} has no credential row",
+                    first.id
+                )));
+            }
+        };
     let credential = Credential::Password(PasswordCredential {
-        password_hash: first.password_hash.clone()?,
-        created_at: first.credential_created_at?,
+        password_hash,
+        created_at: credential_created_at,
     });
-    Some(User {
+    Ok(Some(User {
         id: UserId::new(first.id),
         name: first.name.clone(),
         email: first.email.clone(),
         created_at: first.created_at,
         credential,
-    })
+    }))
 }
 
 const JOIN_SQL: &str = "
@@ -55,7 +67,7 @@ impl UserRepository for PgUserRepository {
                 .await
                 .map_err(|e| UserError::Unexpected(e.to_string()))?;
 
-        Ok(collect_user(rows))
+        collect_user(rows)
     }
 
     async fn find_by_email(&self, email: &str) -> Result<Option<User>, UserError> {
@@ -66,7 +78,7 @@ impl UserRepository for PgUserRepository {
                 .await
                 .map_err(|e| UserError::Unexpected(e.to_string()))?;
 
-        Ok(collect_user(rows))
+        collect_user(rows)
     }
 
     async fn save(&self, user: &User) -> Result<(), UserError> {
