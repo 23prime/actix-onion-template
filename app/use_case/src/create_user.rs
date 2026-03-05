@@ -41,7 +41,7 @@ impl<R: UserRepository> CreateUser<R> {
             name: input.name,
             email: input.email,
             created_at: Utc::now(),
-            credentials: vec![Credential::Password(credential)],
+            credential: Credential::Password(credential),
         };
 
         self.user_repo
@@ -72,9 +72,57 @@ impl std::error::Error for CreateUserError {}
 
 #[cfg(test)]
 mod tests {
+    use async_trait::async_trait;
+    use domain::user::{User, UserError, UserId};
     use garde::Validate;
+    use std::sync::Mutex;
 
     use super::*;
+
+    struct CapturingUserRepo {
+        saved: Mutex<Vec<User>>,
+    }
+
+    impl CapturingUserRepo {
+        fn new() -> Self {
+            Self {
+                saved: Mutex::new(vec![]),
+            }
+        }
+    }
+
+    #[async_trait]
+    impl UserRepository for CapturingUserRepo {
+        async fn find_by_id(&self, _: &UserId) -> Result<Option<User>, UserError> {
+            panic!("not expected")
+        }
+
+        async fn find_by_email(&self, _: &str) -> Result<Option<User>, UserError> {
+            panic!("not expected")
+        }
+
+        async fn save(&self, user: &User) -> Result<(), UserError> {
+            self.saved.lock().unwrap().push(user.clone());
+            Ok(())
+        }
+    }
+
+    #[tokio::test]
+    async fn execute_attaches_credential_and_password_verifies() {
+        let repo = CapturingUserRepo::new();
+        let use_case = CreateUser::new(repo);
+        let password = "password123".to_string();
+        let input = CreateUserInput {
+            name: "Alice".to_string(),
+            email: "alice@example.com".to_string(),
+            password: password.clone(),
+        };
+
+        let user = use_case.execute(input).await.unwrap();
+
+        assert!(user.verify_password(&password));
+        assert!(!user.verify_password("wrong-password"));
+    }
 
     fn valid_input() -> CreateUserInput {
         CreateUserInput {

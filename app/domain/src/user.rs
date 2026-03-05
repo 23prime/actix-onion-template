@@ -18,10 +18,19 @@ impl UserId {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct PasswordCredential {
     pub password_hash: String,
     pub created_at: DateTime<Utc>,
+}
+
+impl std::fmt::Debug for PasswordCredential {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PasswordCredential")
+            .field("password_hash", &"[REDACTED]")
+            .field("created_at", &self.created_at)
+            .finish()
+    }
 }
 
 impl PasswordCredential {
@@ -58,14 +67,14 @@ pub struct User {
     pub name: String,
     pub email: String,
     pub created_at: DateTime<Utc>,
-    pub credentials: Vec<Credential>,
+    pub credential: Credential,
 }
 
 impl User {
     pub fn verify_password(&self, password: &str) -> bool {
-        self.credentials.iter().any(|c| match c {
+        match &self.credential {
             Credential::Password(pc) => pc.verify(password),
-        })
+        }
     }
 }
 

@@ -19,7 +19,7 @@ async fn create_user(repo: &PgUserRepository, name: &str, email: &str, password:
         name: name.to_string(),
         email: email.to_string(),
         created_at: Utc::now(),
-        credentials: vec![Credential::Password(credential)],
+        credential: Credential::Password(credential),
     };
 
     match repo.save(&user).await {

@@ -26,21 +26,16 @@ struct UserWithCredentialRow {
 
 fn collect_user(rows: Vec<UserWithCredentialRow>) -> Option<User> {
     let first = rows.first()?;
-    let credentials = rows
-        .iter()
-        .filter_map(|r| {
-            Some(Credential::Password(PasswordCredential {
-                password_hash: r.password_hash.clone()?,
-                created_at: r.credential_created_at?,
-            }))
-        })
-        .collect();
+    let credential = Credential::Password(PasswordCredential {
+        password_hash: first.password_hash.clone()?,
+        created_at: first.credential_created_at?,
+    });
     Some(User {
         id: UserId::new(first.id),
         name: first.name.clone(),
         email: first.email.clone(),
         created_at: first.created_at,
-        credentials,
+        credential,
     })
 }
 
@@ -97,18 +92,16 @@ impl UserRepository for PgUserRepository {
                 UserError::Unexpected(e.to_string())
             })?;
 
-        for credential in &user.credentials {
-            let Credential::Password(pc) = credential;
-            sqlx::query(
-                "INSERT INTO credentials (user_id, password_hash, created_at) VALUES ($1, $2, $3)",
-            )
-            .bind(user.id.0)
-            .bind(&pc.password_hash)
-            .bind(pc.created_at)
-            .execute(&mut *tx)
-            .await
-            .map_err(|e| UserError::Unexpected(e.to_string()))?;
-        }
+        let Credential::Password(pc) = &user.credential;
+        sqlx::query(
+            "INSERT INTO credentials (user_id, password_hash, created_at) VALUES ($1, $2, $3)",
+        )
+        .bind(user.id.0)
+        .bind(&pc.password_hash)
+        .bind(pc.created_at)
+        .execute(&mut *tx)
+        .await
+        .map_err(|e| UserError::Unexpected(e.to_string()))?;
 
         tx.commit()
             .await
