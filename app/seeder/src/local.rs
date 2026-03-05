@@ -7,7 +7,7 @@ use uuid::Uuid;
 pub async fn seed(pool: &PgPool) {
     println!("Seeding local database...");
     let repo = PgUserRepository::new(pool.clone());
-    create_user(&repo, "Admin", "admin@example.com", "admin").await;
+    create_user(&repo, "Admin", "admin@example.com", "admin123").await;
     println!("Done.");
 }
 
