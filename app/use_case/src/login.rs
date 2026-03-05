@@ -47,7 +47,13 @@ impl<R: UserRepository> Login<R> {
             .map_err(to_unexpected)?
             .ok_or(LoginError::InvalidCredentials)?;
 
-        if !user.verify_password(&input.password) {
+        let password = input.password.clone();
+        let user_for_verify = user.clone();
+        let is_valid =
+            tokio::task::spawn_blocking(move || user_for_verify.verify_password(&password))
+                .await
+                .map_err(to_unexpected)?;
+        if !is_valid {
             return Err(LoginError::InvalidCredentials);
         }
 

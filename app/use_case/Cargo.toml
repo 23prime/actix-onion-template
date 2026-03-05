@@ -10,6 +10,7 @@ chrono = { workspace = true }
 domain = { path = "../domain" }
 jsonwebtoken = { workspace = true }
 serde = { workspace = true }
+tokio = { version = "1", features = ["rt"] }
 uuid = { workspace = true }
 
 [dev-dependencies]
