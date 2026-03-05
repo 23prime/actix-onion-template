@@ -27,10 +27,7 @@ pub async fn login(
     jwt_config: web::Data<JwtConfig>,
     body: web::Json<LoginRequest>,
 ) -> HttpResponse {
-    let use_case = Login::new(
-        container.user_repo.clone(),
-        container.credentials_repo.clone(),
-    );
+    let use_case = Login::new(container.user_repo.clone());
     let input = LoginInput {
         email: body.email.clone(),
         password: body.password.clone(),

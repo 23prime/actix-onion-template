@@ -3,7 +3,7 @@ use container::Container;
 use domain::user::UserId;
 use serde::{Deserialize, Serialize};
 use use_case::{
-    create_user::{CreateUser, CreateUserError, CreateUserInput},
+    create_user::{CreateUser, CreateUserInput},
     get_user::GetUser,
 };
 use uuid::Uuid;
@@ -29,10 +29,7 @@ pub async fn create_user(
     container: web::Data<Container>,
     body: web::Json<CreateUserRequest>,
 ) -> HttpResponse {
-    let use_case = CreateUser::new(
-        container.user_repo.clone(),
-        container.credentials_repo.clone(),
-    );
+    let use_case = CreateUser::new(container.user_repo.clone());
     let input = CreateUserInput {
         name: body.name.clone(),
         email: body.email.clone(),
@@ -45,15 +42,15 @@ pub async fn create_user(
             email: user.email,
             created_at: user.created_at.to_rfc3339(),
         }),
-        Err(CreateUserError::Validation(report)) => {
+        Err(use_case::create_user::CreateUserError::Validation(report)) => {
             HttpResponse::UnprocessableEntity().json(serde_json::json!({
                 "error": "validation_error",
                 "fields": validation_fields(&report),
             }))
         }
-        Err(CreateUserError::User(domain::user::UserError::EmailAlreadyExists)) => {
-            HttpResponse::Conflict().json(serde_json::json!({ "error": "email_already_exists" }))
-        }
+        Err(use_case::create_user::CreateUserError::User(
+            domain::user::UserError::EmailAlreadyExists,
+        )) => HttpResponse::Conflict().json(serde_json::json!({ "error": "email_already_exists" })),
         Err(e) => {
             tracing::error!("create_user error: {e}");
             HttpResponse::InternalServerError()

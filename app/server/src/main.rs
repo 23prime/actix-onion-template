@@ -6,9 +6,7 @@ use std::sync::Arc;
 
 use actix_web::{App, HttpServer, web::Data};
 use container::Container;
-use infrastructure::{
-    credentials_repository::PgCredentialsRepository, user_repository::PgUserRepository,
-};
+use infrastructure::user_repository::PgUserRepository;
 use tracing_actix_web::TracingLogger;
 use use_case::jwt::JwtConfig;
 
@@ -30,10 +28,7 @@ async fn main() -> std::io::Result<()> {
             std::process::exit(1);
         });
 
-    let container = Data::new(Container::new(
-        Arc::new(PgUserRepository::new(pool.clone())),
-        Arc::new(PgCredentialsRepository::new(pool)),
-    ));
+    let container = Data::new(Container::new(Arc::new(PgUserRepository::new(pool))));
 
     let jwt_config = Data::new(JwtConfig {
         secret: config.jwt_secret.clone(),

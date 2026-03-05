@@ -1,4 +1,4 @@
-use domain::{auth_error::AuthError, user::UserId};
+use domain::user::UserId;
 use jsonwebtoken::{EncodingKey, Header, encode};
 use serde::{Deserialize, Serialize};
 
@@ -7,6 +7,17 @@ pub struct JwtConfig {
     pub expires_in_secs: u64,
 }
 
+#[derive(Debug)]
+pub struct JwtError(String);
+
+impl std::fmt::Display for JwtError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "jwt error: {}", self.0)
+    }
+}
+
+impl std::error::Error for JwtError {}
+
 #[derive(Serialize, Deserialize)]
 struct Claims {
     sub: String,
@@ -14,7 +25,7 @@ struct Claims {
     exp: u64,
 }
 
-pub fn issue_token(user_id: &UserId, config: &JwtConfig) -> Result<String, AuthError> {
+pub fn issue_token(user_id: &UserId, config: &JwtConfig) -> Result<String, JwtError> {
     let now = jsonwebtoken::get_current_timestamp();
     let claims = Claims {
         sub: user_id.0.to_string(),
@@ -26,5 +37,5 @@ pub fn issue_token(user_id: &UserId, config: &JwtConfig) -> Result<String, AuthE
         &claims,
         &EncodingKey::from_secret(config.secret.as_bytes()),
     )
-    .map_err(|e| AuthError::Unexpected(e.to_string()))
+    .map_err(|e| JwtError(e.to_string()))
 }
