@@ -2,7 +2,6 @@ guake
 clippy
 nocapture
 rustup
-dtolnay
 actix
 serde
 watchexec
@@ -25,3 +24,4 @@ jsonwebtoken
 getrandom
 argon
 DOTALL
+rustflags
