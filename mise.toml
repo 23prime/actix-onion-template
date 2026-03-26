@@ -23,6 +23,7 @@ markdownlint-cli2 = "latest"
 # GitHub Actions
 actionlint = "latest"
 shellcheck = "latest"
+"github:zizmorcore/zizmor" = "latest"
 
 # Other tools
 lefthook = "latest"
@@ -56,7 +57,7 @@ alias = "s"
 
 [tasks.fix]
 description = "Fix all issues"
-depends = ["md-fix", "rs-fix", "sql-fix"]
+depends = ["md-fix", "gh-fix", "rs-fix", "sql-fix"]
 alias = "f"
 
 [tasks.check]
@@ -81,9 +82,14 @@ run = "markdownlint-cli2 '**/*.md'"
 alias = "mc"
 
 # GitHub Actions
+[tasks.gh-fix]
+description = "Fix GitHub Actions workflows"
+run = "zizmor --fix=all .github/workflows/*.yml"
+alias = "ghf"
+
 [tasks.gh-check]
 description = "Check GitHub Actions workflows"
-run = "actionlint .github/workflows/*.yml"
+run = ["actionlint .github/workflows/*.yml", "zizmor .github/workflows/*.yml"]
 alias = "ghc"
 
 # Spell Check
