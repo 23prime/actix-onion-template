@@ -11,11 +11,11 @@ auto_install = false
 [tools]
 
 # Database
-atlas = "latest"
-"github:quarylabs/sqruff" = "latest"
+atlas = "1"
+"github:quarylabs/sqruff" = "0.34"
 
 # Testing
-"github:k1LoW/runn" = "latest"
+"github:k1LoW/runn" = "1"
 
 # Markdown
 markdownlint-cli2 = "0.22"
