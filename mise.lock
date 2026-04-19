@@ -72,7 +72,7 @@ checksum = "sha256:cc984ca7d11b20bf10f5fdcc08b37db5e7714c5b2fa9f63d7dc4ba441df60
 url = "https://release.ariga.io/atlas/atlas-windows-amd64-v1.1.0.exe"
 
 [[tools.cspell]]
-version = "9.8.0"
+version = "10.0.0"
 backend = "npm:cspell"
 
 [[tools."github:k1LoW/runn"]]
