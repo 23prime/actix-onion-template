@@ -13,7 +13,7 @@ install_before = "3d"
 
 # Database
 atlas = "1"
-"github:quarylabs/sqruff" = "0.34"
+"github:quarylabs/sqruff" = "0.38"
 
 # Testing
 "github:k1LoW/runn" = "1"
@@ -24,7 +24,7 @@ markdownlint-cli2 = "0.22"
 # GitHub Actions
 actionlint = "1"
 shellcheck = "0.11"
-"github:zizmorcore/zizmor" = "1"
+zizmor = "1"
 
 # Other tools
 lefthook = "2"
