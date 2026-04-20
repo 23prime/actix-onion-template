@@ -13,7 +13,7 @@ install_before = "3d"
 
 # Database
 atlas = "1"
-"github:quarylabs/sqruff" = "0.34"
+"github:quarylabs/sqruff" = "0.38"
 
 # Testing
 "github:k1LoW/runn" = "1"

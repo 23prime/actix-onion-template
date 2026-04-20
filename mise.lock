@@ -40,124 +40,125 @@ url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_
 provenance = "github-attestations"
 
 [[tools.atlas]]
-version = "1.1.0"
+version = "1.2.0"
 backend = "aqua:ariga/atlas"
 
 [tools.atlas."platforms.linux-arm64"]
-checksum = "sha256:39fdf4975613c3f3e7f6f3ac082a72387db15119efa069caad9c1642f71b03e4"
-url = "https://release.ariga.io/atlas/atlas-linux-arm64-v1.1.0"
+checksum = "sha256:b76308f558d50d006add507f3ab86afc1147644519dd327f7f5fac6d02d4f595"
+url = "https://release.ariga.io/atlas/atlas-linux-arm64-v1.2.0"
 
 [tools.atlas."platforms.linux-arm64-musl"]
-checksum = "sha256:39fdf4975613c3f3e7f6f3ac082a72387db15119efa069caad9c1642f71b03e4"
-url = "https://release.ariga.io/atlas/atlas-linux-arm64-v1.1.0"
+checksum = "sha256:b76308f558d50d006add507f3ab86afc1147644519dd327f7f5fac6d02d4f595"
+url = "https://release.ariga.io/atlas/atlas-linux-arm64-v1.2.0"
 
 [tools.atlas."platforms.linux-x64"]
-checksum = "sha256:af19315d37190dd4d6af75358708c4537fc36b5720ce081e493cf4fa69452ef5"
-url = "https://release.ariga.io/atlas/atlas-linux-amd64-v1.1.0"
+checksum = "sha256:c12b889e3349f0e5610aec32fe327e5a6911a0e472754a0c381c30c7c0630e88"
+url = "https://release.ariga.io/atlas/atlas-linux-amd64-v1.2.0"
 
 [tools.atlas."platforms.linux-x64-musl"]
-checksum = "sha256:af19315d37190dd4d6af75358708c4537fc36b5720ce081e493cf4fa69452ef5"
-url = "https://release.ariga.io/atlas/atlas-linux-amd64-v1.1.0"
+checksum = "sha256:c12b889e3349f0e5610aec32fe327e5a6911a0e472754a0c381c30c7c0630e88"
+url = "https://release.ariga.io/atlas/atlas-linux-amd64-v1.2.0"
 
 [tools.atlas."platforms.macos-arm64"]
-checksum = "sha256:3b3825eef961c8bc07f3bfe3da7a4d99b615b7955b1c6115a40130b1c9767727"
-url = "https://release.ariga.io/atlas/atlas-darwin-arm64-v1.1.0"
+checksum = "sha256:c0d8443a603991c337341a303abf3812cb9f12d74d0ec0d585245735f18c1224"
+url = "https://release.ariga.io/atlas/atlas-darwin-arm64-v1.2.0"
 
 [tools.atlas."platforms.macos-x64"]
-checksum = "sha256:e009ab7931ef93109c80d0d7dc9e46e38c98426635088521c4694fdb28d0f44e"
-url = "https://release.ariga.io/atlas/atlas-darwin-amd64-v1.1.0"
+checksum = "sha256:47f98e6f0d6a203f6c84e643f1ad99519fa8c2b5b59c177af3c449bd3ae0bb5a"
+url = "https://release.ariga.io/atlas/atlas-darwin-amd64-v1.2.0"
 
 [tools.atlas."platforms.windows-x64"]
-checksum = "sha256:cc984ca7d11b20bf10f5fdcc08b37db5e7714c5b2fa9f63d7dc4ba441df60d0b"
-url = "https://release.ariga.io/atlas/atlas-windows-amd64-v1.1.0.exe"
+checksum = "sha256:5dbf3e7ec63306bce97904c6ad6ecb82633f0299b98c73987607204d551a80b1"
+url = "https://release.ariga.io/atlas/atlas-windows-amd64-v1.2.0.exe"
 
 [[tools.cspell]]
 version = "9.8.0"
 backend = "npm:cspell"
 
 [[tools."github:k1LoW/runn"]]
-version = "1.3.1"
+version = "1.9.1"
 backend = "github:k1LoW/runn"
 
 [tools."github:k1LoW/runn"."platforms.linux-arm64"]
-checksum = "sha256:09e99096acf3203ddbf4c2c3dc5a8541cace294a0d1067ae68c5ef54bcae354e"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896173"
+checksum = "sha256:65b6bff66916041660e7088568fb9e8a7bd078d30598f3ea317781dfab86afc9"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047561"
 
 [tools."github:k1LoW/runn"."platforms.linux-arm64-musl"]
-checksum = "sha256:09e99096acf3203ddbf4c2c3dc5a8541cace294a0d1067ae68c5ef54bcae354e"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896173"
+checksum = "sha256:65b6bff66916041660e7088568fb9e8a7bd078d30598f3ea317781dfab86afc9"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047561"
 
 [tools."github:k1LoW/runn"."platforms.linux-x64"]
-checksum = "sha256:6584219231e0d79763938e7b26590f26dbf2ab3b44a23c5df31cda3c3781fe0b"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896171"
+checksum = "sha256:ee52e876474c660f891befec81608453a426c8c8ea988271b6d83d8b93be2409"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047563"
 
 [tools."github:k1LoW/runn"."platforms.linux-x64-musl"]
-checksum = "sha256:6584219231e0d79763938e7b26590f26dbf2ab3b44a23c5df31cda3c3781fe0b"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896171"
+checksum = "sha256:ee52e876474c660f891befec81608453a426c8c8ea988271b6d83d8b93be2409"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047563"
 
 [tools."github:k1LoW/runn"."platforms.macos-arm64"]
-checksum = "sha256:d2ff1b98d4813e69b1c66e3b3f5b2aa981de3b274b91eddd2343b6f7612eacdd"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_darwin_arm64.zip"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896156"
+checksum = "sha256:ce020224bff9ea9d090c30d589e45b1c03fd918ecb1d0129a70555aafe01d117"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_darwin_arm64.zip"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047532"
 
 [tools."github:k1LoW/runn"."platforms.macos-x64"]
-checksum = "sha256:0810447675a8b16d483efd4b1f7adbc62ff11624fbc37011d3b787cad276e8da"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_darwin_amd64.zip"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896158"
+checksum = "sha256:cedef2b3f0e203ebe94c518e572ada6baf1bfa4bfb2bd10c19421ac8303293df"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_darwin_amd64.zip"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047533"
 
 [tools."github:k1LoW/runn"."platforms.windows-x64"]
-checksum = "sha256:9bf28605da2f0f4d0766dbaf9e556591e57454be8c7ea8efb78667326fc39a38"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_windows_amd64.tar.gz"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896157"
+checksum = "sha256:fd1ad4b53b17331af9761cfb4e955a88758ae57496012806b15d152866f6c522"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_windows_amd64.tar.gz"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047531"
 
 [[tools."github:quarylabs/sqruff"]]
-version = "0.34.1"
+version = "0.38.0"
 backend = "github:quarylabs/sqruff"
 
 [tools."github:quarylabs/sqruff"."platforms.linux-arm64"]
-checksum = "sha256:94cb5a1642b8bdf415d945250b5390df5bf805b15e86f7c8d1c666d4cbfea4ed"
-url = "https://github.com/quarylabs/sqruff/releases/download/v0.34.1/sqruff-linux-aarch64-musl.tar.gz"
-url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/344757797"
+checksum = "sha256:7e1abca59aeb3a0899a78be36dbfd4002db2ce6754835250beeea2fab95f5abf"
+url = "https://github.com/quarylabs/sqruff/releases/download/v0.38.0/sqruff-linux-aarch64-musl.tar.gz"
+url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/394885672"
 provenance = "github-attestations"
 
 [tools."github:quarylabs/sqruff"."platforms.linux-arm64-musl"]
-checksum = "sha256:94cb5a1642b8bdf415d945250b5390df5bf805b15e86f7c8d1c666d4cbfea4ed"
-url = "https://github.com/quarylabs/sqruff/releases/download/v0.34.1/sqruff-linux-aarch64-musl.tar.gz"
-url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/344757797"
+checksum = "sha256:7e1abca59aeb3a0899a78be36dbfd4002db2ce6754835250beeea2fab95f5abf"
+url = "https://github.com/quarylabs/sqruff/releases/download/v0.38.0/sqruff-linux-aarch64-musl.tar.gz"
+url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/394885672"
 provenance = "github-attestations"
 
 [tools."github:quarylabs/sqruff"."platforms.linux-x64"]
-checksum = "sha256:7f22818caccd0db4daa83315302abb962f5263438a6701330e1cac9f8c5c6749"
-url = "https://github.com/quarylabs/sqruff/releases/download/v0.34.1/sqruff-linux-x86_64-musl.tar.gz"
-url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/344757441"
+checksum = "sha256:d96a06daca2a214eb0b6c07b2821e9cdb1379086041bcca6f8bab031b6eb8026"
+url = "https://github.com/quarylabs/sqruff/releases/download/v0.38.0/sqruff-linux-x86_64-musl.tar.gz"
+url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/394883913"
 provenance = "github-attestations"
 
 [tools."github:quarylabs/sqruff"."platforms.linux-x64-musl"]
-checksum = "sha256:7f22818caccd0db4daa83315302abb962f5263438a6701330e1cac9f8c5c6749"
-url = "https://github.com/quarylabs/sqruff/releases/download/v0.34.1/sqruff-linux-x86_64-musl.tar.gz"
-url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/344757441"
+checksum = "sha256:d96a06daca2a214eb0b6c07b2821e9cdb1379086041bcca6f8bab031b6eb8026"
+url = "https://github.com/quarylabs/sqruff/releases/download/v0.38.0/sqruff-linux-x86_64-musl.tar.gz"
+url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/394883913"
 provenance = "github-attestations"
 
 [tools."github:quarylabs/sqruff"."platforms.macos-arm64"]
-checksum = "sha256:842232f80295d2730ec3446340dc39ccb6af65c787a988bad7da225209935675"
-url = "https://github.com/quarylabs/sqruff/releases/download/v0.34.1/sqruff-darwin-aarch64.tar.gz"
-url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/344757612"
+checksum = "sha256:86f324f07c5d6d56c80fa36c69e69d7221399680ff28c32a9f4c6054c5faf8d6"
+url = "https://github.com/quarylabs/sqruff/releases/download/v0.38.0/sqruff-darwin-aarch64.tar.gz"
+url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/394875814"
 provenance = "github-attestations"
 
 [tools."github:quarylabs/sqruff"."platforms.macos-x64"]
-checksum = "sha256:f13e4bad272a4a77304e960eb639f790ecd3cbb4dc0889607e795599ef3346d7"
-url = "https://github.com/quarylabs/sqruff/releases/download/v0.34.1/sqruff-darwin-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/344759160"
+checksum = "sha256:59dd187684147c8890fa0019816bd670e305a326a016fa291ea7997587a52f6f"
+url = "https://github.com/quarylabs/sqruff/releases/download/v0.38.0/sqruff-darwin-x86_64.tar.gz"
+url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/394876177"
 provenance = "github-attestations"
 
 [tools."github:quarylabs/sqruff"."platforms.windows-x64"]
-checksum = "sha256:ea9b1beb0278c94d6ba92cdfd350b86cf5f9003ee9443ae87d72e157379923b2"
-url = "https://github.com/quarylabs/sqruff/releases/download/v0.34.1/sqruff-windows-x86_64.zip"
-url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/344758234"
+checksum = "sha256:004e2b7a7a8c32256bc76bc61b642014856ff3fa1c4aedf9854e66c5b8a4817b"
+url = "https://github.com/quarylabs/sqruff/releases/download/v0.38.0/sqruff-windows-x86_64.zip"
+url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/394875233"
+provenance = "github-attestations"
 
 [[tools."github:zizmorcore/zizmor"]]
 version = "1.24.1"
