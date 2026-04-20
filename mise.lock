@@ -76,44 +76,43 @@ version = "9.8.0"
 backend = "npm:cspell"
 
 [[tools."github:k1LoW/runn"]]
-version = "1.3.1"
+version = "1.9.1"
 backend = "github:k1LoW/runn"
 
 [tools."github:k1LoW/runn"."platforms.linux-arm64"]
-checksum = "sha256:09e99096acf3203ddbf4c2c3dc5a8541cace294a0d1067ae68c5ef54bcae354e"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896173"
+checksum = "sha256:65b6bff66916041660e7088568fb9e8a7bd078d30598f3ea317781dfab86afc9"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047561"
 
 [tools."github:k1LoW/runn"."platforms.linux-arm64-musl"]
-checksum = "sha256:09e99096acf3203ddbf4c2c3dc5a8541cace294a0d1067ae68c5ef54bcae354e"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896173"
+checksum = "sha256:65b6bff66916041660e7088568fb9e8a7bd078d30598f3ea317781dfab86afc9"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047561"
 
 [tools."github:k1LoW/runn"."platforms.linux-x64"]
-checksum = "sha256:6584219231e0d79763938e7b26590f26dbf2ab3b44a23c5df31cda3c3781fe0b"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896171"
-provenance = "github-attestations"
+checksum = "sha256:ee52e876474c660f891befec81608453a426c8c8ea988271b6d83d8b93be2409"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047563"
 
 [tools."github:k1LoW/runn"."platforms.linux-x64-musl"]
-checksum = "sha256:6584219231e0d79763938e7b26590f26dbf2ab3b44a23c5df31cda3c3781fe0b"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896171"
+checksum = "sha256:ee52e876474c660f891befec81608453a426c8c8ea988271b6d83d8b93be2409"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047563"
 
 [tools."github:k1LoW/runn"."platforms.macos-arm64"]
-checksum = "sha256:d2ff1b98d4813e69b1c66e3b3f5b2aa981de3b274b91eddd2343b6f7612eacdd"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_darwin_arm64.zip"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896156"
+checksum = "sha256:ce020224bff9ea9d090c30d589e45b1c03fd918ecb1d0129a70555aafe01d117"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_darwin_arm64.zip"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047532"
 
 [tools."github:k1LoW/runn"."platforms.macos-x64"]
-checksum = "sha256:0810447675a8b16d483efd4b1f7adbc62ff11624fbc37011d3b787cad276e8da"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_darwin_amd64.zip"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896158"
+checksum = "sha256:cedef2b3f0e203ebe94c518e572ada6baf1bfa4bfb2bd10c19421ac8303293df"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_darwin_amd64.zip"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047533"
 
 [tools."github:k1LoW/runn"."platforms.windows-x64"]
-checksum = "sha256:9bf28605da2f0f4d0766dbaf9e556591e57454be8c7ea8efb78667326fc39a38"
-url = "https://github.com/k1LoW/runn/releases/download/v1.3.1/runn_v1.3.1_windows_amd64.tar.gz"
-url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/355896157"
+checksum = "sha256:fd1ad4b53b17331af9761cfb4e955a88758ae57496012806b15d152866f6c522"
+url = "https://github.com/k1LoW/runn/releases/download/v1.9.1/runn_v1.9.1_windows_amd64.tar.gz"
+url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/397047531"
 
 [[tools."github:quarylabs/sqruff"]]
 version = "0.38.0"
@@ -162,49 +161,49 @@ url_api = "https://api.github.com/repos/quarylabs/sqruff/releases/assets/3948752
 provenance = "github-attestations"
 
 [[tools."github:zizmorcore/zizmor"]]
-version = "1.23.1"
+version = "1.24.1"
 backend = "github:zizmorcore/zizmor"
 
 [tools."github:zizmorcore/zizmor"."platforms.linux-arm64"]
-checksum = "sha256:3725d7cd7102e4d70827186389f7d5930b6878232930d0a3eb058d7e5b47e658"
-url = "https://github.com/zizmorcore/zizmor/releases/download/v1.23.1/zizmor-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/369532190"
+checksum = "sha256:d66e37ef8a375fb07939c630ebf9709a6e0f20242bdc3faf672a7ed97e0b768d"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/395578623"
 provenance = "github-attestations"
 
 [tools."github:zizmorcore/zizmor"."platforms.linux-arm64-musl"]
-checksum = "sha256:3725d7cd7102e4d70827186389f7d5930b6878232930d0a3eb058d7e5b47e658"
-url = "https://github.com/zizmorcore/zizmor/releases/download/v1.23.1/zizmor-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/369532190"
+checksum = "sha256:d66e37ef8a375fb07939c630ebf9709a6e0f20242bdc3faf672a7ed97e0b768d"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/395578623"
 provenance = "github-attestations"
 
 [tools."github:zizmorcore/zizmor"."platforms.linux-x64"]
-checksum = "sha256:67a8df0a14352dd81882e14876653d097b99b0f4f6b6fe798edc0320cff27aff"
-url = "https://github.com/zizmorcore/zizmor/releases/download/v1.23.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/369532192"
+checksum = "sha256:a8000f3c683319a523d3b20df0e75457ba591f049cfcbfa98966631b56733c03"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/395578625"
 provenance = "github-attestations"
 
 [tools."github:zizmorcore/zizmor"."platforms.linux-x64-musl"]
-checksum = "sha256:67a8df0a14352dd81882e14876653d097b99b0f4f6b6fe798edc0320cff27aff"
-url = "https://github.com/zizmorcore/zizmor/releases/download/v1.23.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/369532192"
+checksum = "sha256:a8000f3c683319a523d3b20df0e75457ba591f049cfcbfa98966631b56733c03"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/395578625"
 provenance = "github-attestations"
 
 [tools."github:zizmorcore/zizmor"."platforms.macos-arm64"]
-checksum = "sha256:2632561b974c69f952258c1ab4b7432d5c7f92e555704155c3ac28a2910bd717"
-url = "https://github.com/zizmorcore/zizmor/releases/download/v1.23.1/zizmor-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/369532191"
+checksum = "sha256:fc4ea59e18bc028dddb5f710b16dbc361b01ff1e7a20c03b8e5778366ca9f4e1"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/395578622"
 provenance = "github-attestations"
 
 [tools."github:zizmorcore/zizmor"."platforms.macos-x64"]
-checksum = "sha256:89d5ed42081dd9d0433a10b7545fac42b35f1f030885c278b9712b32c66f2597"
-url = "https://github.com/zizmorcore/zizmor/releases/download/v1.23.1/zizmor-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/369532186"
+checksum = "sha256:721ba70d7fca753aeef1a4ee959a9bc20c55784d4faa6c56e66129a2611fd52f"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/395578621"
 provenance = "github-attestations"
 
 [tools."github:zizmorcore/zizmor"."platforms.windows-x64"]
-checksum = "sha256:33c2293ff02834720dd7cd8b47348aafb2e95a19bdc993c0ecaca9c804ade92a"
-url = "https://github.com/zizmorcore/zizmor/releases/download/v1.23.1/zizmor-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/369532189"
+checksum = "sha256:b777ec2cb1098139ba74b32e30d11ed149c69ab692d23788c466d4a31704bd4b"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/395578624"
 provenance = "github-attestations"
 
 [[tools.lefthook]]
@@ -281,3 +280,42 @@ url = "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellche
 [tools.shellcheck."platforms.windows-x64"]
 checksum = "sha256:8a4e35ab0b331c85d73567b12f2a444df187f483e5079ceffa6bda1faa2e740e"
 url = "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.zip"
+
+[[tools.zizmor]]
+version = "1.24.1"
+backend = "aqua:zizmorcore/zizmor"
+
+[tools.zizmor."platforms.linux-arm64"]
+checksum = "sha256:d66e37ef8a375fb07939c630ebf9709a6e0f20242bdc3faf672a7ed97e0b768d"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-aarch64-unknown-linux-gnu.tar.gz"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.linux-arm64-musl"]
+checksum = "sha256:d66e37ef8a375fb07939c630ebf9709a6e0f20242bdc3faf672a7ed97e0b768d"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-aarch64-unknown-linux-gnu.tar.gz"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.linux-x64"]
+checksum = "sha256:a8000f3c683319a523d3b20df0e75457ba591f049cfcbfa98966631b56733c03"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.linux-x64-musl"]
+checksum = "sha256:a8000f3c683319a523d3b20df0e75457ba591f049cfcbfa98966631b56733c03"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.macos-arm64"]
+checksum = "sha256:fc4ea59e18bc028dddb5f710b16dbc361b01ff1e7a20c03b8e5778366ca9f4e1"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-aarch64-apple-darwin.tar.gz"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.macos-x64"]
+checksum = "sha256:721ba70d7fca753aeef1a4ee959a9bc20c55784d4faa6c56e66129a2611fd52f"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-apple-darwin.tar.gz"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.windows-x64"]
+checksum = "sha256:b777ec2cb1098139ba74b32e30d11ed149c69ab692d23788c466d4a31704bd4b"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-pc-windows-msvc.zip"
+provenance = "github-attestations"
