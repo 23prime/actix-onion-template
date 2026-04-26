@@ -29,6 +29,7 @@ zizmor = "1"
 # Other tools
 lefthook = "2"
 cspell = "9"
+gitleaks = "8"
 
 
 # ================================================================
@@ -62,7 +63,7 @@ alias = "f"
 
 [tasks.check]
 description = "Check for all issues"
-depends = ["md-check", "gh-check", "spell-check", "rs-check", "sql-check"]
+depends = ["md-check", "gh-check", "spell-check", "rs-check", "sql-check", "gitleaks-check"]
 alias = "c"
 
 [tasks.fix-and-check]
@@ -203,3 +204,13 @@ alias = "sc"
 description = "Seed database for the specified environment (ENV=local)"
 run = "ENV=\"${ENV:-local}\" cargo run --bin seeder"
 dir = "{{vars.app_dir}}"
+# Secrets
+[tasks.gitleaks-check]
+description = "Check for leaked secrets"
+run = "gitleaks detect --no-banner"
+alias = "glc"
+
+[tasks.gitleaks-protect]
+description = "Check staged files for leaked secrets"
+run = "gitleaks protect --staged --no-banner"
+alias = "glp"
