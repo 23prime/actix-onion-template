@@ -93,6 +93,7 @@ url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/403817467"
 checksum = "sha256:facca461ad6e078729f9b6ea78396025991a8d0737429fc7e6c05c23c76cbff7"
 url = "https://github.com/k1LoW/runn/releases/download/v1.9.2/runn_v1.9.2_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/k1LoW/runn/releases/assets/403817472"
+provenance = "github-attestations"
 
 [tools."github:k1LoW/runn"."platforms.linux-x64-musl"]
 checksum = "sha256:facca461ad6e078729f9b6ea78396025991a8d0737429fc7e6c05c23c76cbff7"
