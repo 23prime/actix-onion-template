@@ -221,9 +221,9 @@ dir = "{{vars.app_dir}}"
 [tasks.secret-check]
 description = "Check staged files for leaked secrets"
 run = "betterleaks git --pre-commit --redact --no-banner"
-alias = "glp"
+alias = "scc"
 
 [tasks.secret-check-all]
 description = "Check for leaked secrets"
 run = "betterleaks git --redact --no-banner"
-alias = "glc"
+alias = "sca"
